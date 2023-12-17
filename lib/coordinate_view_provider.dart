@@ -27,7 +27,7 @@ class VSNodeData {
       );
 }
 
-class CoordinatProvider extends ChangeNotifier {
+class CoordinateProvider extends ChangeNotifier {
   Map<String, VSNodeData> _data = {};
 
   Map<String, VSNodeData> get data => _data;

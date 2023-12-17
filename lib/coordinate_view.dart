@@ -15,17 +15,7 @@ class CoordinatView extends StatelessWidget {
 
     return Builder(
       builder: (context) {
-        Offset updatePosition(Offset newPosition) {
-          final scrollOffset = Offset(horizontal.offset, vertical.offset);
-
-          newPosition = Offset(
-            newPosition.dx + scrollOffset.dx,
-            newPosition.dy + scrollOffset.dy,
-          );
-          return newPosition;
-        }
-
-        final coordinatProvider = context.watch<CoordinatProvider>();
+        final coordinatProvider = context.watch<CoordinateProvider>();
 
         final coordsDelegateWraper =
             TwoDimensinalCoordinatChildBuilderDelegateWraper(

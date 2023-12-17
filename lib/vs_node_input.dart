@@ -18,10 +18,8 @@ class VSNodeInput extends StatelessWidget {
   Offset? updatePosition(Offset? newPosition) {
     if (newPosition == null) return null;
 
-    newPosition = Offset(
-      newPosition.dx - data.widgetOffset.dx,
-      newPosition.dy - data.widgetOffset.dy,
-    );
+    newPosition = newPosition - data.widgetOffset;
+
     return newPosition;
   }
 
@@ -52,7 +50,7 @@ class VSNodeInput extends StatelessWidget {
                 );
               },
               onAccept: (inoput) {
-                context.read<CoordinatProvider>().setData(
+                context.read<CoordinateProvider>().setData(
                       data..inputs[title] = inoput,
                     );
               },

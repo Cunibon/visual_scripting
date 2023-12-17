@@ -22,14 +22,11 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
   Offset? dragPos;
 
   void updatePosition(Offset newPosition) {
-    newPosition = Offset(
-      (newPosition.dx + widget.scrollOffset.dx) -
-          widget.data.widgetOffset.dx -
-          100,
-      (newPosition.dy + widget.scrollOffset.dy) -
-          widget.data.widgetOffset.dy -
-          35,
-    );
+    newPosition = newPosition +
+        widget.scrollOffset -
+        widget.data.widgetOffset -
+        const Offset(100, 35);
+
     setState(() => dragPos = newPosition);
   }
 

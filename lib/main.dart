@@ -5,7 +5,7 @@ import 'package:visual_scripting/coordinate_view.dart';
 import 'package:visual_scripting/coordinate_view_provider.dart';
 
 void main() {
-  final coordinatProvider = CoordinatProvider();
+  final coordinatProvider = CoordinateProvider();
 
   coordinatProvider.setData(VSNodeData(
     title: "First Node",
