@@ -1,26 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:visual_scripting/coordinate_view_provider.dart';
 import 'package:visual_scripting/line_drawer.dart';
+import 'package:visual_scripting/node_data_provider.dart';
 
-class VSNodeInput extends StatelessWidget {
+const centerOffset = Offset(5, 5);
+
+class VSNodeInput extends StatefulWidget {
   const VSNodeInput({
-    required this.title,
     required this.data,
     required this.scrollOffset,
     super.key,
   });
 
-  final String title;
-  final VSNodeData data;
+  final VSInputData data;
   final Offset scrollOffset;
 
-  Offset? updatePosition(Offset? newPosition) {
-    if (newPosition == null) return null;
+  @override
+  State<VSNodeInput> createState() => _VSNodeInputState();
+}
 
-    newPosition = newPosition - data.widgetOffset;
+class _VSNodeInputState extends State<VSNodeInput> {
+  final GlobalKey _anchor = GlobalKey();
 
-    return newPosition;
+  void findWidgetPosition() {
+    RenderBox renderBox =
+        _anchor.currentContext?.findRenderObject() as RenderBox;
+    Offset position = renderBox.localToGlobal(Offset.zero);
+
+    widget.data.widgetOffset = position - widget.data.nodeData.widgetOffset;
+
+    context.read<NodeDataProvider>().setData(widget.data.nodeData);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      findWidgetPosition();
+    });
+  }
+
+  Offset? updateLinePosition(VSOutputData? outputData) {
+    if (outputData?.widgetOffset == null || widget.data.widgetOffset == null) {
+      return null;
+    }
+
+    return outputData!.widgetOffset! +
+        outputData.nodeData.widgetOffset -
+        widget.data.nodeData.widgetOffset -
+        widget.data.widgetOffset! +
+        centerOffset;
+  }
+
+  void updateConnectedNode(VSOutputData? data) {
+    widget.data.connectedNode = data;
+    context.read<NodeDataProvider>().setData(
+          widget.data.nodeData,
+        );
   }
 
   @override
@@ -32,31 +69,35 @@ class VSNodeInput extends StatelessWidget {
         children: [
           CustomPaint(
             painter: LinePainter(
-              const Offset(5, 5),
-              updatePosition(
-                data.inputs[title]?.widgetOffset,
+              centerOffset,
+              updateLinePosition(
+                widget.data.connectedNode,
               ),
             ),
-            child: DragTarget<VSNodeData>(
+            child: DragTarget<VSOutputData>(
               builder: (
                 BuildContext context,
                 List<dynamic> accepted,
                 List<dynamic> rejected,
               ) {
-                return Container(
-                  height: 10,
-                  width: 10,
-                  color: Colors.cyan,
+                return GestureDetector(
+                  onTap: () {
+                    updateConnectedNode(null);
+                  },
+                  child: Container(
+                    key: _anchor,
+                    height: 10,
+                    width: 10,
+                    color: Colors.cyan,
+                  ),
                 );
               },
-              onAccept: (inoput) {
-                context.read<CoordinateProvider>().setData(
-                      data..inputs[title] = inoput,
-                    );
+              onAccept: (data) {
+                updateConnectedNode(data);
               },
             ),
           ),
-          Text(title),
+          Text(widget.data.name),
         ],
       ),
     );

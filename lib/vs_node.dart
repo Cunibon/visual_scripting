@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:visual_scripting/coordinate_view_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:visual_scripting/node_data_provider.dart';
 import 'package:visual_scripting/vs_node_input.dart';
 import 'package:visual_scripting/vs_node_output.dart';
 
@@ -22,33 +23,51 @@ class _VSNodeState extends State<VSNode> {
   Widget build(BuildContext context) {
     final List<Widget> interfaceWidgets = [];
 
-    widget.data.inputs.forEach(
-      (key, value) => interfaceWidgets.add(
+    for (final value in widget.data.inputData) {
+      interfaceWidgets.add(
         VSNodeInput(
-          title: key,
           scrollOffset: widget.scrollOffset,
-          data: widget.data,
+          data: value,
         ),
-      ),
-    );
+      );
+    }
 
-    widget.data.outputs.forEach(
-      (key, value) => interfaceWidgets.add(
+    for (final value in widget.data.outputData) {
+      interfaceWidgets.add(
         VSNodeOutput(
-          title: key,
           scrollOffset: widget.scrollOffset,
-          data: widget.data,
+          data: value,
+        ),
+      );
+    }
+
+    final nodeDataProvider = context.watch<NodeDataProvider>();
+
+    return Draggable(
+      onDragEnd: (details) {
+        nodeDataProvider.setData(
+          widget.data..widgetOffset = details.offset,
+        );
+      },
+      feedback: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(children: [
+            Text(widget.data.title),
+            const SizedBox(
+              width: 100,
+            )
+          ]),
         ),
       ),
-    );
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(children: [
-          Text(widget.data.title),
-          ...interfaceWidgets,
-        ]),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(children: [
+            Text(widget.data.title),
+            ...interfaceWidgets,
+          ]),
+        ),
       ),
     );
   }

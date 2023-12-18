@@ -2,23 +2,23 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:visual_scripting/coordinate_view.dart';
-import 'package:visual_scripting/coordinate_view_provider.dart';
+import 'package:visual_scripting/node_data_provider.dart';
 
 void main() {
-  final coordinatProvider = CoordinateProvider();
+  final coordinatProvider = NodeDataProvider();
 
   coordinatProvider.setData(VSNodeData(
     title: "First Node",
     widgetOffset: const Offset(0, 0),
-    inputs: {"input": null},
-    outputs: {"output": null},
+    inputData: [VSInputData(name: "input"), VSInputData(name: "input")],
+    outputData: [VSOutputData(name: "input")],
   ));
 
   coordinatProvider.setData(VSNodeData(
     title: "Second Node",
     widgetOffset: const Offset(0, 0),
-    inputs: {"input": null},
-    outputs: {"output": null},
+    inputData: [VSInputData(name: "input")],
+    outputData: [VSOutputData(name: "input"), VSOutputData(name: "input")],
   ));
 
   runApp(MultiProvider(
@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(scaffoldBackgroundColor: Colors.black87),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         // Mouse dragging enabled for this demo
         dragDevices: PointerDeviceKind.values.toSet(),
