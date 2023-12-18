@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(scaffoldBackgroundColor: Colors.black87),
+      theme: ThemeData(
+          scaffoldBackgroundColor: const Color.fromARGB(255, 46, 46, 46)),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         // Mouse dragging enabled for this demo
         dragDevices: PointerDeviceKind.values.toSet(),

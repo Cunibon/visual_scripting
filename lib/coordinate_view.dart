@@ -25,7 +25,8 @@ class CoordinatView extends StatelessWidget {
           gridBuilder: (context, gridPosition) => Container(
             decoration: BoxDecoration(
               color: Colors.transparent,
-              border: Border.all(color: Colors.blueGrey),
+              border:
+                  Border.all(color: const Color.fromARGB(255, 107, 107, 107)),
             ),
             height: 1000,
             width: 1000,
