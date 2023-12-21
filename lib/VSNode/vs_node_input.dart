@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:visual_scripting/line_drawer.dart';
-import 'package:visual_scripting/node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
+import 'package:visual_scripting/VSNode/line_drawer.dart';
+import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
 
-const centerOffset = Offset(5, 5);
+const centerOffset = Offset(7.5, 7.5);
 
 class VSNodeInput extends StatefulWidget {
   const VSNodeInput({
     required this.data,
-    required this.scrollOffset,
     super.key,
   });
 
   final VSInputData data;
-  final Offset scrollOffset;
 
   @override
   State<VSNodeInput> createState() => _VSNodeInputState();
@@ -29,7 +28,7 @@ class _VSNodeInputState extends State<VSNodeInput> {
 
     widget.data.widgetOffset = position - widget.data.nodeData.widgetOffset;
 
-    context.read<NodeDataProvider>().setData(widget.data.nodeData);
+    context.read<VSNodeDataProvider>().setData(widget.data.nodeData);
   }
 
   @override
@@ -55,13 +54,16 @@ class _VSNodeInputState extends State<VSNodeInput> {
 
   void updateConnectedNode(VSOutputData? data) {
     widget.data.connectedNode = data;
-    context.read<NodeDataProvider>().setData(
+    context.read<VSNodeDataProvider>().setData(
           widget.data.nodeData,
         );
   }
 
   @override
   Widget build(BuildContext context) {
+    final icon = widget.data.connectedNode == null
+        ? Icons.radio_button_unchecked
+        : Icons.radio_button_checked;
     return SizedBox(
       width: 100,
       child: Row(
@@ -84,11 +86,11 @@ class _VSNodeInputState extends State<VSNodeInput> {
                   onTap: () {
                     updateConnectedNode(null);
                   },
-                  child: Container(
+                  child: Icon(
+                    icon,
                     key: _anchor,
-                    height: 10,
-                    width: 10,
-                    color: Colors.cyan,
+                    color: widget.data.interfaceColor,
+                    size: 15,
                   ),
                 );
               },

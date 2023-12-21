@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:visual_scripting/node_data_provider.dart';
-import 'package:visual_scripting/vs_node_input.dart';
-import 'package:visual_scripting/vs_node_output.dart';
+import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
+import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/vs_node_input.dart';
+import 'package:visual_scripting/VSNode/vs_node_output.dart';
 
 class VSNode extends StatefulWidget {
   const VSNode({
     required this.data,
-    required this.scrollOffset,
     super.key,
   });
 
   final VSNodeData data;
-  final Offset scrollOffset;
 
   @override
   State<VSNode> createState() => _VSNodeState();
@@ -26,7 +25,6 @@ class _VSNodeState extends State<VSNode> {
     for (final value in widget.data.inputData) {
       interfaceWidgets.add(
         VSNodeInput(
-          scrollOffset: widget.scrollOffset,
           data: value,
         ),
       );
@@ -35,19 +33,16 @@ class _VSNodeState extends State<VSNode> {
     for (final value in widget.data.outputData) {
       interfaceWidgets.add(
         VSNodeOutput(
-          scrollOffset: widget.scrollOffset,
           data: value,
         ),
       );
     }
 
-    final nodeDataProvider = context.watch<NodeDataProvider>();
-
     return Draggable(
       onDragEnd: (details) {
-        nodeDataProvider.setData(
-          widget.data..widgetOffset = details.offset,
-        );
+        context.read<VSNodeDataProvider>().setData(
+              widget.data..widgetOffset = details.offset,
+            );
       },
       feedback: Card(
         child: Padding(

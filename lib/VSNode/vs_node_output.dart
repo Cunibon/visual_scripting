@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:visual_scripting/line_drawer.dart';
-import 'package:visual_scripting/node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
+import 'package:visual_scripting/VSNode/line_drawer.dart';
+import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
 
 class VSNodeOutput extends StatefulWidget {
   const VSNodeOutput({
     required this.data,
-    required this.scrollOffset,
     super.key,
   });
 
   final VSOutputData data;
-  final Offset scrollOffset;
 
   @override
   State<VSNodeOutput> createState() => _VSNodeOutputState();
@@ -28,7 +27,7 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
 
     widget.data.widgetOffset = position - widget.data.nodeData.widgetOffset;
 
-    context.read<NodeDataProvider>().setData(widget.data.nodeData);
+    context.read<VSNodeDataProvider>().setData(widget.data.nodeData);
   }
 
   @override
@@ -41,8 +40,7 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
   }
 
   void updateLinePosition(Offset newPosition) {
-    newPosition = newPosition +
-        widget.scrollOffset -
+    newPosition = newPosition -
         widget.data.nodeData.widgetOffset -
         widget.data.widgetOffset!;
 
@@ -67,32 +65,21 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
                 dragPos = null;
               }),
               onDraggableCanceled: (velocity, offset) {
-                context.read<NodeDataProvider>().setData(
-                      VSNodeData(
-                        title: "New Node",
-                        widgetOffset: offset,
-                        inputData: [
-                          VSInputData(
-                            name: "input",
-                            connectedNode: widget.data,
-                          )
-                        ],
-                        outputData: [
-                          VSOutputData(name: "input"),
-                        ],
-                      ),
+                context.read<VSNodeDataProvider>().openContextMenu(
+                      position: offset,
+                      outputData: widget.data,
                     );
               },
-              feedback: Container(
-                width: 10,
-                height: 10,
+              feedback: const Icon(
+                Icons.circle,
                 color: Colors.green,
+                size: 15,
               ),
-              child: Container(
+              child: Icon(
+                Icons.circle,
                 key: _anchor,
-                width: 10,
-                height: 10,
-                color: Colors.grey,
+                color: widget.data.interfaceColor,
+                size: 15,
               ),
             ),
           ),
