@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visual_scripting/VSNode/Data/StandardInterafaces/vs_dynamic_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 
 abstract class VSInterfaceData {
@@ -17,8 +18,13 @@ abstract class VSInputData extends VSInterfaceData {
     this.connectedNode,
   });
 
-  Type get acceptedType;
   VSOutputData? connectedNode;
+
+  List<Type> get acceptedTypes;
+  bool acceptInput(VSOutputData data) {
+    return acceptedTypes.contains(data.runtimeType) ||
+        data.runtimeType == VSDynamicOutputData;
+  }
 }
 
 abstract class VSOutputData extends VSInterfaceData {

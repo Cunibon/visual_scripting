@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
-import 'package:visual_scripting/VSNode/line_drawer.dart';
+import 'package:visual_scripting/VSNode/gradiant_line_drawer.dart';
 import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/vs_node_input.dart';
 
 class VSNodeOutput extends StatefulWidget {
   const VSNodeOutput({
@@ -56,7 +57,12 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
         children: [
           Text(widget.data.name),
           CustomPaint(
-            painter: LinePainter(const Offset(5, 5), dragPos),
+            foregroundPainter: GradientLinePainter(
+              startPoint: centerOffset,
+              endPoint: dragPos,
+              startColor: widget.data.interfaceColor,
+              endColor: Colors.green,
+            ),
             child: Draggable<VSOutputData>(
               data: widget.data,
               onDragUpdate: (details) =>

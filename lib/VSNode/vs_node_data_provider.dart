@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 
+typedef VSNodeDataBuilder = VSNodeData Function(Offset, VSOutputData?);
+
 class ContextMenuContext {
   ContextMenuContext({
     required this.offset,
@@ -41,7 +43,7 @@ class VSNodeDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createNode(VSNodeData Function(Offset, VSOutputData?) builder) {
+  void createNode(VSNodeDataBuilder builder) {
     setData(
       builder(
         _contextMenuOffset!.offset,

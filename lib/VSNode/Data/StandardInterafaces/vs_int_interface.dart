@@ -8,7 +8,7 @@ class VSIntInputData extends VSInputData {
   });
 
   @override
-  Type get acceptedType => int;
+  List<Type> get acceptedTypes => [VSIntOutputData];
 
   @override
   Color get interfaceColor => Colors.blue;

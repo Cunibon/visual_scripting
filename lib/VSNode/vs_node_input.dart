@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
-import 'package:visual_scripting/VSNode/line_drawer.dart';
+import 'package:visual_scripting/VSNode/gradiant_line_drawer.dart';
 import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
 
 const centerOffset = Offset(7.5, 7.5);
@@ -70,11 +70,13 @@ class _VSNodeInputState extends State<VSNodeInput> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomPaint(
-            painter: LinePainter(
-              centerOffset,
-              updateLinePosition(
+            foregroundPainter: GradientLinePainter(
+              startPoint: centerOffset,
+              endPoint: updateLinePosition(
                 widget.data.connectedNode,
               ),
+              startColor: widget.data.interfaceColor,
+              endColor: widget.data.connectedNode?.interfaceColor,
             ),
             child: DragTarget<VSOutputData>(
               builder: (
@@ -95,7 +97,9 @@ class _VSNodeInputState extends State<VSNodeInput> {
                 );
               },
               onAccept: (data) {
-                updateConnectedNode(data);
+                if (widget.data.acceptInput(data)) {
+                  updateConnectedNode(data);
+                }
               },
             ),
           ),

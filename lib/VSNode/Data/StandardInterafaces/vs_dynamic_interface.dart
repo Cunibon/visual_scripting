@@ -8,7 +8,12 @@ class VSDynmaicInputData extends VSInputData {
   });
 
   @override
-  Type get acceptedType => dynamic;
+  List<Type> get acceptedTypes => [];
+
+  @override
+  bool acceptInput(VSOutputData data) {
+    return true;
+  }
 
   @override
   Color get interfaceColor => Colors.grey;

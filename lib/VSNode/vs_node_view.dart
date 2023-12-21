@@ -6,9 +6,12 @@ import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
 
 class VSNodeView extends StatelessWidget {
   const VSNodeView({
+    required this.nodeBuilders,
     this.contextMenuOverride,
     super.key,
   });
+
+  final Map<String, VSNodeDataBuilder> nodeBuilders;
 
   final Widget? contextMenuOverride;
 
@@ -46,7 +49,10 @@ class VSNodeView extends StatelessWidget {
                 Positioned(
                   left: nodeDataProvider.contextMenuOffset!.offset.dx,
                   top: nodeDataProvider.contextMenuOffset!.offset.dy,
-                  child: contextMenuOverride ?? const VSContextMenu(),
+                  child: contextMenuOverride ??
+                      VSContextMenu(
+                        nodeBuilders: nodeBuilders,
+                      ),
                 ),
             ],
           ),
