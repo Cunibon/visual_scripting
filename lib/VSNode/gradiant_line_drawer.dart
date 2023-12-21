@@ -21,7 +21,7 @@ class GradientLinePainter extends CustomPainter {
     final paint = Paint()..strokeWidth = 2.0;
 
     var colors = [startColor ?? Colors.grey, endColor ?? Colors.grey];
-    if (endPoint!.dx < 0) colors = colors.reversed.toList();
+    if (endPoint!.dx <= 0) colors = colors.reversed.toList();
 
     final gradient = LinearGradient(
       colors: colors,

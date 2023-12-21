@@ -11,7 +11,7 @@ class VSStringInputData extends VSInputData {
   List<Type> get acceptedTypes => [VSStringOutputData];
 
   @override
-  Color get interfaceColor => Colors.red;
+  Color get interfaceColor => Colors.green;
 }
 
 class VSStringOutputData extends VSOutputData {
@@ -20,5 +20,5 @@ class VSStringOutputData extends VSOutputData {
   });
 
   @override
-  Color get interfaceColor => Colors.red;
+  Color get interfaceColor => Colors.green;
 }

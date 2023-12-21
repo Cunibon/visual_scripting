@@ -11,7 +11,7 @@ class VSNodeView extends StatelessWidget {
     super.key,
   });
 
-  final Map<String, VSNodeDataBuilder> nodeBuilders;
+  final Map<String, dynamic> nodeBuilders;
 
   final Widget? contextMenuOverride;
 

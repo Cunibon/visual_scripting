@@ -58,10 +58,12 @@ class _VSNodeState extends State<VSNode> {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            Text(widget.data.title),
-            ...interfaceWidgets,
-          ]),
+          child: Column(
+            children: [
+              Text(widget.data.title),
+              ...interfaceWidgets,
+            ],
+          ),
         ),
       ),
     );

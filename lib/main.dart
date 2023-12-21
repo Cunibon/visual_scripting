@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:visual_scripting/VSNode/Data/StandardInterafaces/vs_double_interface.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterafaces/vs_dynamic_interface.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterafaces/vs_int_interface.dart';
+import 'package:visual_scripting/VSNode/Data/StandardInterafaces/vs_num_interface.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterafaces/vs_string_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
@@ -14,59 +16,89 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final nodeBuilders = {
-      "Simple node": (Offset offset, VSOutputData? ref) => VSNodeData(
-            title: "Simple node",
-            widgetOffset: offset,
-            inputData: [
-              VSDynmaicInputData(
-                name: "input",
-                connectedNode: ref,
-              )
-            ],
-            outputData: [
-              VSDynamicOutputData(name: "input"),
-            ],
-          ),
-      "Double input": (Offset offset, VSOutputData? ref) => VSNodeData(
-            title: "Double input",
-            widgetOffset: offset,
-            inputData: [
-              VSDynmaicInputData(
-                name: "input",
-                connectedNode: ref,
-              ),
-              VSDynmaicInputData(name: "input"),
-            ],
-            outputData: [
-              VSDynamicOutputData(name: "output"),
-            ],
-          ),
-      "Double output": (Offset offset, VSOutputData? ref) => VSNodeData(
-            title: "Double output",
-            widgetOffset: offset,
-            inputData: [
-              VSDynmaicInputData(name: "input", connectedNode: ref),
-            ],
-            outputData: [
-              VSDynamicOutputData(name: "output"),
-              VSDynamicOutputData(name: "output"),
-            ],
-          ),
-      "Simple int node": (Offset offset, VSOutputData? ref) => VSNodeData(
-            title: "Simple int node",
-            widgetOffset: offset,
-            inputData: [
-              VSIntInputData(
-                name: "input",
-                connectedNode: ref,
-              )
-            ],
-            outputData: [
-              VSIntOutputData(name: "output"),
-            ],
-          ),
+      "Dynamic": {
+        "Simple dynamic node": (Offset offset, VSOutputData? ref) => VSNodeData(
+              title: "Simple dynamic node",
+              widgetOffset: offset,
+              inputData: [
+                VSDynmaicInputData(
+                  name: "input",
+                  connectedNode: ref,
+                )
+              ],
+              outputData: [
+                VSDynamicOutputData(name: "input"),
+              ],
+            ),
+        "Double input": (Offset offset, VSOutputData? ref) => VSNodeData(
+              title: "Double input",
+              widgetOffset: offset,
+              inputData: [
+                VSDynmaicInputData(
+                  name: "input",
+                  connectedNode: ref,
+                ),
+                VSDynmaicInputData(name: "input"),
+              ],
+              outputData: [
+                VSDynamicOutputData(name: "output"),
+              ],
+            ),
+        "Double output": (Offset offset, VSOutputData? ref) => VSNodeData(
+              title: "Double output",
+              widgetOffset: offset,
+              inputData: [
+                VSDynmaicInputData(name: "input", connectedNode: ref),
+              ],
+              outputData: [
+                VSDynamicOutputData(name: "output"),
+                VSDynamicOutputData(name: "output"),
+              ],
+            ),
+      },
+      "Numbers": {
+        "Simple int node": (Offset offset, VSOutputData? ref) => VSNodeData(
+              title: "Simple int node",
+              widgetOffset: offset,
+              inputData: [
+                VSIntInputData(
+                  name: "input",
+                  connectedNode: ref,
+                )
+              ],
+              outputData: [
+                VSIntOutputData(name: "output"),
+              ],
+            ),
+        "Simple double node": (Offset offset, VSOutputData? ref) => VSNodeData(
+              title: "Simple double node",
+              widgetOffset: offset,
+              inputData: [
+                VSDoubleInputData(
+                  name: "input",
+                  connectedNode: ref,
+                )
+              ],
+              outputData: [
+                VSDoubleOutputData(name: "output"),
+              ],
+            ),
+        "Simple num node": (Offset offset, VSOutputData? ref) => VSNodeData(
+              title: "Simple num node",
+              widgetOffset: offset,
+              inputData: [
+                VSNumInputData(
+                  name: "input",
+                  connectedNode: ref,
+                )
+              ],
+              outputData: [
+                VSNumOutputData(name: "output"),
+              ],
+            ),
+      },
       "Simple string node": (Offset offset, VSOutputData? ref) => VSNodeData(
-            title: "Simple int node",
+            title: "Simple string node",
             widgetOffset: offset,
             inputData: [
               VSStringInputData(
