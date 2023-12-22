@@ -17,7 +17,7 @@ class EndNode extends VSNodeData {
     Map<String, List<dynamic>> nodeInputValues = {};
     traverseInputNodes(nodeInputValues, this);
 
-    return nodeInputValues[id];
+    return nodeInputValues[id]!.first;
   }
 
   void traverseInputNodes(

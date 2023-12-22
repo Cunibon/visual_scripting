@@ -6,13 +6,35 @@ import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_num_interface
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_string_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
+import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/vs_node_view.dart';
-import 'package:visual_scripting/VSNode/vs_node_view_controller.dart';
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+          scaffoldBackgroundColor: const Color.fromARGB(255, 46, 46, 46)),
+      home: const Scaffold(body: ShowResult()),
+    );
+  }
+}
+
+class ShowResult extends StatefulWidget {
+  const ShowResult({super.key});
+
+  @override
+  State<ShowResult> createState() => _ShowResultState();
+}
+
+class _ShowResultState extends State<ShowResult> {
+  String? result;
+
+  final nodeDataProvider = VSNodeDataProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +80,8 @@ class MyApp extends StatelessWidget {
                 ),
               ],
             ),
-        "sum node": (Offset offset, VSOutputData? ref) => VSNodeData(
-              title: "sum node",
+        "Sum node": (Offset offset, VSOutputData? ref) => VSNodeData(
+              title: "Sum node",
               widgetOffset: offset,
               inputData: [
                 VSNumInputData(
@@ -103,31 +125,34 @@ class MyApp extends StatelessWidget {
           ),
     };
 
-    final controller = VSNodeViewController();
-
-    return MaterialApp(
-      theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromARGB(255, 46, 46, 46)),
-      home: Scaffold(
-        body: Stack(
-          children: [
-            VSNodeView(
-              nodeBuilders: nodeBuilders,
-              controller: controller,
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: ElevatedButton(
-                onPressed: () => print(
-                  controller.vsNodeDataProvider.getEndNode.evalGraph(),
-                ),
+    return Stack(
+      children: [
+        VSNodeView(
+          nodeBuilders: nodeBuilders,
+          provider: nodeDataProvider,
+        ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () => setState(() {
+                  result = nodeDataProvider.getEndNode.evalGraph().toString();
+                }),
                 child: const Text("Evaluate"),
               ),
-            ),
-          ],
+              if (result != null)
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(result!),
+                  ),
+                ),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

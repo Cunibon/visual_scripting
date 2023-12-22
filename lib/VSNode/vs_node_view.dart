@@ -3,25 +3,22 @@ import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/vs_context_menu.dart';
 import 'package:visual_scripting/VSNode/vs_node.dart';
 import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
-import 'package:visual_scripting/VSNode/vs_node_view_controller.dart';
 
 class VSNodeView extends StatelessWidget {
   const VSNodeView({
     required this.nodeBuilders,
     this.contextMenuOverride,
-    this.controller,
+    this.provider,
     super.key,
   });
 
   final Map<String, dynamic> nodeBuilders;
-  final VSNodeViewController? controller;
+  final VSNodeDataProvider? provider;
   final Widget? contextMenuOverride;
 
   @override
   Widget build(BuildContext context) {
-    final vsNodeDataProvider = VSNodeDataProvider();
-
-    controller?.vsNodeDataProvider = vsNodeDataProvider;
+    final vsNodeDataProvider = provider ?? VSNodeDataProvider();
 
     return MultiProvider(
       providers: [
