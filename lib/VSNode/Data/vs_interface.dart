@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterafaces/vs_dynamic_interface.dart';
+import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_dynamic_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 
 abstract class VSInterfaceData {

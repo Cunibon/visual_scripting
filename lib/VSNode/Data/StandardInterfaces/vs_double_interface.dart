@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterafaces/vs_num_interface.dart';
+import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_num_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 
 class VSDoubleInputData extends VSInputData {

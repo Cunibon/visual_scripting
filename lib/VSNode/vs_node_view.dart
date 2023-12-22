@@ -25,36 +25,49 @@ class VSNodeView extends StatelessWidget {
       child: Builder(builder: (context) {
         final nodeDataProvider = context.watch<VSNodeDataProvider>();
 
-        return GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTapDown: (details) => nodeDataProvider.closeContextMenu(),
-          onSecondaryTapUp: (details) {
-            nodeDataProvider.openContextMenu(
-              position: details.globalPosition,
-            );
-          },
-          child: Stack(
-            children: [
-              ...nodeDataProvider.data.values.map((value) {
-                return Positioned(
-                  left: value.widgetOffset.dx,
-                  top: value.widgetOffset.dy,
-                  child: VSNode(
-                    data: value,
-                  ),
+        return Stack(
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTapDown: (details) => nodeDataProvider.closeContextMenu(),
+              onSecondaryTapUp: (details) {
+                nodeDataProvider.openContextMenu(
+                  position: details.globalPosition,
                 );
-              }),
-              if (nodeDataProvider.contextMenuOffset != null)
-                Positioned(
-                  left: nodeDataProvider.contextMenuOffset!.offset.dx,
-                  top: nodeDataProvider.contextMenuOffset!.offset.dy,
-                  child: contextMenuOverride ??
-                      VSContextMenu(
-                        nodeBuilders: nodeBuilders,
+              },
+              child: Stack(
+                children: [
+                  ...nodeDataProvider.data.values.map((value) {
+                    return Positioned(
+                      left: value.widgetOffset.dx,
+                      top: value.widgetOffset.dy,
+                      child: VSNode(
+                        data: value,
                       ),
-                ),
-            ],
-          ),
+                    );
+                  }),
+                  if (nodeDataProvider.contextMenuOffset != null)
+                    Positioned(
+                      left: nodeDataProvider.contextMenuOffset!.offset.dx,
+                      top: nodeDataProvider.contextMenuOffset!.offset.dy,
+                      child: contextMenuOverride ??
+                          VSContextMenu(
+                            nodeBuilders: nodeBuilders,
+                          ),
+                    ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: ElevatedButton(
+                onPressed: () =>
+                    print(coordinatProvider.getEndNode.evalGraph()),
+                child: const Text("Evaluate"),
+              ),
+            ),
+          ],
         );
       }),
     );

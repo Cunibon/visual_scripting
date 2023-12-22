@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visual_scripting/VSNode/Data/vs_end_node.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 
@@ -15,7 +16,14 @@ class ContextMenuContext {
 }
 
 class VSNodeDataProvider extends ChangeNotifier {
-  Map<String, VSNodeData> _data = {};
+  Map<String, VSNodeData> _data = {
+    "EndNode": EndNode(
+      title: "Output",
+      widgetOffset: Offset.zero,
+    )
+  };
+
+  EndNode get getEndNode => _data["EndNode"] as EndNode;
 
   Map<String, VSNodeData> get data => _data;
 

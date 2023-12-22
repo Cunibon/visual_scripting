@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterafaces/vs_double_interface.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterafaces/vs_int_interface.dart';
+import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_double_interface.dart';
+import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_int_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 
 class VSNumInputData extends VSInputData {
@@ -10,7 +10,11 @@ class VSNumInputData extends VSInputData {
   });
 
   @override
-  List<Type> get acceptedTypes => [VSDoubleOutputData, VSIntOutputData];
+  List<Type> get acceptedTypes => [
+        VSDoubleOutputData,
+        VSIntOutputData,
+        VSNumOutputData,
+      ];
 
   @override
   Color get interfaceColor => Colors.purple;
