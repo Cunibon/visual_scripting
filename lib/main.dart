@@ -101,22 +101,6 @@ class MyApp extends StatelessWidget {
               ),
             ],
           ),
-      "Print": (Offset offset, VSOutputData? ref) => VSNodeData(
-            title: "Print",
-            widgetOffset: offset,
-            inputData: [
-              VSDynamicInputData(
-                name: "input",
-                initialConnection: ref,
-              )
-            ],
-            outputData: [
-              VSDynamicOutputData(
-                name: "output",
-                outputFunction: (data) => print(data),
-              ),
-            ],
-          ),
     };
 
     final controller = VSNodeViewController();
