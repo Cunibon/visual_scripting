@@ -4,7 +4,7 @@ import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 class VSStringInputData extends VSInputData {
   VSStringInputData({
     required super.name,
-    super.connectedNode,
+    super.initialConnection,
   });
 
   @override

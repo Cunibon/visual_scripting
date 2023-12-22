@@ -19,11 +19,11 @@ class VSNodeInput extends StatefulWidget {
 }
 
 class _VSNodeInputState extends State<VSNodeInput> {
+  late RenderBox renderBox;
   final GlobalKey _anchor = GlobalKey();
 
   void findWidgetPosition() {
-    RenderBox renderBox =
-        _anchor.currentContext?.findRenderObject() as RenderBox;
+    renderBox = _anchor.currentContext?.findRenderObject() as RenderBox;
     Offset position = renderBox.localToGlobal(Offset.zero);
 
     widget.data.widgetOffset = position - widget.data.nodeData.widgetOffset;

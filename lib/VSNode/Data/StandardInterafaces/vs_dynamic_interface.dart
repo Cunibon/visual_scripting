@@ -4,14 +4,14 @@ import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 class VSDynmaicInputData extends VSInputData {
   VSDynmaicInputData({
     required super.name,
-    super.connectedNode,
+    super.initialConnection,
   });
 
   @override
   List<Type> get acceptedTypes => [];
 
   @override
-  bool acceptInput(VSOutputData data) {
+  bool acceptInput(VSOutputData? data) {
     return true;
   }
 

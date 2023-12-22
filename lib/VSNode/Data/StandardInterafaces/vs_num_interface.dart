@@ -6,7 +6,7 @@ import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 class VSNumInputData extends VSInputData {
   VSNumInputData({
     required super.name,
-    super.connectedNode,
+    super.initialConnection,
   });
 
   @override

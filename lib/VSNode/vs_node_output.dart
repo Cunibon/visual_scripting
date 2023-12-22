@@ -19,11 +19,11 @@ class VSNodeOutput extends StatefulWidget {
 
 class _VSNodeOutputState extends State<VSNodeOutput> {
   Offset? dragPos;
+  late RenderBox renderBox;
   final GlobalKey _anchor = GlobalKey();
 
   void findWidgetPosition() {
-    RenderBox renderBox =
-        _anchor.currentContext?.findRenderObject() as RenderBox;
+    renderBox = _anchor.currentContext?.findRenderObject() as RenderBox;
     Offset position = renderBox.localToGlobal(Offset.zero);
 
     widget.data.widgetOffset = position - widget.data.nodeData.widgetOffset;
@@ -41,9 +41,7 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
   }
 
   void updateLinePosition(Offset newPosition) {
-    newPosition = newPosition -
-        widget.data.nodeData.widgetOffset -
-        widget.data.widgetOffset!;
+    newPosition = renderBox.globalToLocal(newPosition);
 
     setState(() => dragPos = newPosition);
   }
@@ -61,7 +59,7 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
               startPoint: centerOffset,
               endPoint: dragPos,
               startColor: widget.data.interfaceColor,
-              endColor: Colors.green,
+              endColor: widget.data.interfaceColor,
             ),
             child: Draggable<VSOutputData>(
               data: widget.data,
@@ -76,9 +74,9 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
                       outputData: widget.data,
                     );
               },
-              feedback: const Icon(
+              feedback: Icon(
                 Icons.circle,
-                color: Colors.green,
+                color: widget.data.interfaceColor,
                 size: 15,
               ),
               child: Icon(

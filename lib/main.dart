@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
               inputData: [
                 VSDynmaicInputData(
                   name: "input",
-                  connectedNode: ref,
+                  initialConnection: ref,
                 )
               ],
               outputData: [
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
               inputData: [
                 VSDynmaicInputData(
                   name: "input",
-                  connectedNode: ref,
+                  initialConnection: ref,
                 ),
                 VSDynmaicInputData(name: "input"),
               ],
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
               title: "Double output",
               widgetOffset: offset,
               inputData: [
-                VSDynmaicInputData(name: "input", connectedNode: ref),
+                VSDynmaicInputData(name: "input", initialConnection: ref),
               ],
               outputData: [
                 VSDynamicOutputData(name: "output"),
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
               inputData: [
                 VSIntInputData(
                   name: "input",
-                  connectedNode: ref,
+                  initialConnection: ref,
                 )
               ],
               outputData: [
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
               inputData: [
                 VSDoubleInputData(
                   name: "input",
-                  connectedNode: ref,
+                  initialConnection: ref,
                 )
               ],
               outputData: [
@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
               inputData: [
                 VSNumInputData(
                   name: "input",
-                  connectedNode: ref,
+                  initialConnection: ref,
                 )
               ],
               outputData: [
@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
             inputData: [
               VSStringInputData(
                 name: "input",
-                connectedNode: ref,
+                initialConnection: ref,
               )
             ],
             outputData: [

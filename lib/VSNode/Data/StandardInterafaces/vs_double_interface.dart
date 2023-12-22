@@ -5,7 +5,7 @@ import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 class VSDoubleInputData extends VSInputData {
   VSDoubleInputData({
     required super.name,
-    super.connectedNode,
+    super.initialConnection,
   });
 
   @override

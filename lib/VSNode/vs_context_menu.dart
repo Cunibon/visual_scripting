@@ -26,7 +26,6 @@ class _VSContextMenuState extends State<VSContextMenu> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> widgets = [];
-
     final entries = nodeBuilders.entries;
 
     for (final entry in entries) {
