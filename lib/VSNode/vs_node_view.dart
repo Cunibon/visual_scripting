@@ -3,71 +3,63 @@ import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/vs_context_menu.dart';
 import 'package:visual_scripting/VSNode/vs_node.dart';
 import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/vs_node_view_controller.dart';
 
 class VSNodeView extends StatelessWidget {
   const VSNodeView({
     required this.nodeBuilders,
     this.contextMenuOverride,
+    this.controller,
     super.key,
   });
 
   final Map<String, dynamic> nodeBuilders;
+  final VSNodeViewController? controller;
   final Widget? contextMenuOverride;
 
   @override
   Widget build(BuildContext context) {
-    final coordinatProvider = VSNodeDataProvider();
+    final vsNodeDataProvider = VSNodeDataProvider();
+
+    controller?.vsNodeDataProvider = vsNodeDataProvider;
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: coordinatProvider),
+        ChangeNotifierProvider.value(value: vsNodeDataProvider),
       ],
       child: Builder(builder: (context) {
         final nodeDataProvider = context.watch<VSNodeDataProvider>();
 
-        return Stack(
-          children: [
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTapDown: (details) => nodeDataProvider.closeContextMenu(),
-              onSecondaryTapUp: (details) {
-                nodeDataProvider.openContextMenu(
-                  position: details.globalPosition,
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTapDown: (details) => nodeDataProvider.closeContextMenu(),
+          onSecondaryTapUp: (details) {
+            nodeDataProvider.openContextMenu(
+              position: details.globalPosition,
+            );
+          },
+          child: Stack(
+            children: [
+              ...nodeDataProvider.data.values.map((value) {
+                return Positioned(
+                  left: value.widgetOffset.dx,
+                  top: value.widgetOffset.dy,
+                  child: VSNode(
+                    data: value,
+                  ),
                 );
-              },
-              child: Stack(
-                children: [
-                  ...nodeDataProvider.data.values.map((value) {
-                    return Positioned(
-                      left: value.widgetOffset.dx,
-                      top: value.widgetOffset.dy,
-                      child: VSNode(
-                        data: value,
+              }),
+              if (nodeDataProvider.contextMenuOffset != null)
+                Positioned(
+                  left: nodeDataProvider.contextMenuOffset!.offset.dx,
+                  top: nodeDataProvider.contextMenuOffset!.offset.dy,
+                  child: contextMenuOverride ??
+                      VSContextMenu(
+                        nodeBuilders: nodeBuilders,
                       ),
-                    );
-                  }),
-                  if (nodeDataProvider.contextMenuOffset != null)
-                    Positioned(
-                      left: nodeDataProvider.contextMenuOffset!.offset.dx,
-                      top: nodeDataProvider.contextMenuOffset!.offset.dy,
-                      child: contextMenuOverride ??
-                          VSContextMenu(
-                            nodeBuilders: nodeBuilders,
-                          ),
-                    ),
-                ],
-              ),
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: ElevatedButton(
-                onPressed: () =>
-                    print(coordinatProvider.getEndNode.evalGraph()),
-                child: const Text("Evaluate"),
-              ),
-            ),
-          ],
+                ),
+            ],
+          ),
         );
       }),
     );

@@ -7,6 +7,7 @@ import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_string_interf
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 import 'package:visual_scripting/VSNode/vs_node_view.dart';
+import 'package:visual_scripting/VSNode/vs_node_view_controller.dart';
 
 void main() => runApp(const MyApp());
 
@@ -118,12 +119,29 @@ class MyApp extends StatelessWidget {
           ),
     };
 
+    final controller = VSNodeViewController();
+
     return MaterialApp(
       theme: ThemeData(
           scaffoldBackgroundColor: const Color.fromARGB(255, 46, 46, 46)),
       home: Scaffold(
-        body: VSNodeView(
-          nodeBuilders: nodeBuilders,
+        body: Stack(
+          children: [
+            VSNodeView(
+              nodeBuilders: nodeBuilders,
+              controller: controller,
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: ElevatedButton(
+                onPressed: () => print(
+                  controller.vsNodeDataProvider.getEndNode.evalGraph(),
+                ),
+                child: const Text("Evaluate"),
+              ),
+            ),
+          ],
         ),
       ),
     );
