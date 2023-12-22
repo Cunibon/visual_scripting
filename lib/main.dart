@@ -99,7 +99,9 @@ class _ShowResultState extends State<ShowResult> {
                   outputFunction: (data) {
                     num sum = 0;
                     for (final number in data) {
-                      sum += number as num;
+                      if (number != null) {
+                        sum += number as num;
+                      }
                     }
                     return sum;
                   },
