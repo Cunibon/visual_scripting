@@ -16,9 +16,10 @@ class VSNumInputData extends VSInputData {
   Color get interfaceColor => Colors.purple;
 }
 
-class VSNumOutputData extends VSOutputData {
+class VSNumOutputData extends VSOutputData<num> {
   VSNumOutputData({
     required super.name,
+    required super.outputFunction,
   });
 
   @override

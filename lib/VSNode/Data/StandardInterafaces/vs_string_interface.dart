@@ -14,9 +14,10 @@ class VSStringInputData extends VSInputData {
   Color get interfaceColor => Colors.green;
 }
 
-class VSStringOutputData extends VSOutputData {
+class VSStringOutputData extends VSOutputData<String> {
   VSStringOutputData({
     required super.name,
+    required super.outputFunction,
   });
 
   @override

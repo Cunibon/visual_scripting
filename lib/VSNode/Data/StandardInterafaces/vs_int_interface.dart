@@ -15,9 +15,10 @@ class VSIntInputData extends VSInputData {
   Color get interfaceColor => Colors.blue;
 }
 
-class VSIntOutputData extends VSOutputData {
+class VSIntOutputData extends VSOutputData<int> {
   VSIntOutputData({
     required super.name,
+    required super.outputFunction,
   });
 
   @override

@@ -21,38 +21,16 @@ class MyApp extends StatelessWidget {
               title: "Simple dynamic node",
               widgetOffset: offset,
               inputData: [
-                VSDynmaicInputData(
+                VSDynamicInputData(
                   name: "input",
                   initialConnection: ref,
                 )
               ],
               outputData: [
-                VSDynamicOutputData(name: "input"),
-              ],
-            ),
-        "Double input": (Offset offset, VSOutputData? ref) => VSNodeData(
-              title: "Double input",
-              widgetOffset: offset,
-              inputData: [
-                VSDynmaicInputData(
-                  name: "input",
-                  initialConnection: ref,
+                VSDynamicOutputData(
+                  name: "output",
+                  outputFunction: (data) => data.first,
                 ),
-                VSDynmaicInputData(name: "input"),
-              ],
-              outputData: [
-                VSDynamicOutputData(name: "output"),
-              ],
-            ),
-        "Double output": (Offset offset, VSOutputData? ref) => VSNodeData(
-              title: "Double output",
-              widgetOffset: offset,
-              inputData: [
-                VSDynmaicInputData(name: "input", initialConnection: ref),
-              ],
-              outputData: [
-                VSDynamicOutputData(name: "output"),
-                VSDynamicOutputData(name: "output"),
               ],
             ),
       },
@@ -60,54 +38,82 @@ class MyApp extends StatelessWidget {
         "Simple int node": (Offset offset, VSOutputData? ref) => VSNodeData(
               title: "Simple int node",
               widgetOffset: offset,
-              inputData: [
-                VSIntInputData(
-                  name: "input",
-                  initialConnection: ref,
-                )
-              ],
+              inputData: [],
               outputData: [
-                VSIntOutputData(name: "output"),
+                VSIntOutputData(
+                  name: "output",
+                  outputFunction: (data) => 5,
+                ),
               ],
             ),
         "Simple double node": (Offset offset, VSOutputData? ref) => VSNodeData(
               title: "Simple double node",
               widgetOffset: offset,
-              inputData: [
-                VSDoubleInputData(
-                  name: "input",
-                  initialConnection: ref,
-                )
-              ],
+              inputData: [],
               outputData: [
-                VSDoubleOutputData(name: "output"),
+                VSDoubleOutputData(
+                  name: "output",
+                  outputFunction: (data) => 2.5,
+                ),
               ],
             ),
-        "Simple num node": (Offset offset, VSOutputData? ref) => VSNodeData(
-              title: "Simple num node",
+        "sum node": (Offset offset, VSOutputData? ref) => VSNodeData(
+              title: "sum node",
               widgetOffset: offset,
               inputData: [
+                VSNumInputData(
+                  name: "input",
+                  initialConnection: ref,
+                ),
                 VSNumInputData(
                   name: "input",
                   initialConnection: ref,
                 )
               ],
               outputData: [
-                VSNumOutputData(name: "output"),
+                VSNumOutputData(
+                  name: "output",
+                  outputFunction: (data) {
+                    num sum = 0;
+                    for (final number in data) {
+                      sum += number as num;
+                    }
+                    return sum;
+                  },
+                ),
               ],
             ),
       },
-      "Simple string node": (Offset offset, VSOutputData? ref) => VSNodeData(
-            title: "Simple string node",
+      "To string": (Offset offset, VSOutputData? ref) => VSNodeData(
+            title: "To string",
             widgetOffset: offset,
             inputData: [
-              VSStringInputData(
+              VSDynamicInputData(
                 name: "input",
                 initialConnection: ref,
               )
             ],
             outputData: [
-              VSStringOutputData(name: "output"),
+              VSStringOutputData(
+                name: "output",
+                outputFunction: (data) => data.first.toString(),
+              ),
+            ],
+          ),
+      "Print": (Offset offset, VSOutputData? ref) => VSNodeData(
+            title: "Print",
+            widgetOffset: offset,
+            inputData: [
+              VSDynamicInputData(
+                name: "input",
+                initialConnection: ref,
+              )
+            ],
+            outputData: [
+              VSDynamicOutputData(
+                name: "output",
+                outputFunction: (data) => print(data),
+              ),
             ],
           ),
     };

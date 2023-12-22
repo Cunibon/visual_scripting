@@ -15,9 +15,10 @@ class VSDoubleInputData extends VSInputData {
   Color get interfaceColor => Colors.red;
 }
 
-class VSDoubleOutputData extends VSOutputData {
+class VSDoubleOutputData extends VSOutputData<double> {
   VSDoubleOutputData({
     required super.name,
+    required super.outputFunction,
   });
 
   @override
