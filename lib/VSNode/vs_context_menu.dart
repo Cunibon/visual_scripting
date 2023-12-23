@@ -62,14 +62,16 @@ class _VSContextMenuState extends State<VSContextMenu> {
       }
     }
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          width: 150,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: widgets,
+    return GestureDetector(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: 150,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: widgets,
+            ),
           ),
         ),
       ),

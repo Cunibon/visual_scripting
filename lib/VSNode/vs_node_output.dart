@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/gradiant_line_drawer.dart';
+import 'package:visual_scripting/VSNode/special_nodes/vs_widget_node.dart';
 import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/vs_node_input.dart';
 
@@ -48,12 +49,16 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
 
   @override
   Widget build(BuildContext context) {
+    final firstItem = widget.data.nodeData is VSWidgetNode
+        ? (widget.data.nodeData as VSWidgetNode).child
+        : Text(widget.data.name);
+
     return SizedBox(
       width: 100,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(widget.data.name),
+          firstItem,
           CustomPaint(
             foregroundPainter: GradientLinePainter(
               startPoint: centerOffset,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_dynamic_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 
-class EndNode extends VSNodeData {
-  EndNode({
+class VSEndNode extends VSNodeData {
+  VSEndNode({
     required String title,
     required Offset widgetOffset,
   }) : super(
@@ -36,7 +36,7 @@ class EndNode extends VSNodeData {
         }
 
         inputValues.add(
-          connectedNode.outputFunction(
+          connectedNode.outputFunction?.call(
             nodeInputValues[connectedNode.nodeData.id]!,
           ),
         );

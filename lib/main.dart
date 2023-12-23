@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_double_interface.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_dynamic_interface.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_int_interface.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_num_interface.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_string_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
+import 'package:visual_scripting/VSNode/special_nodes/vs_end_node.dart';
+import 'package:visual_scripting/VSNode/special_nodes/vs_widget_node.dart';
 import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/vs_node_view.dart';
 
@@ -32,51 +33,33 @@ class ShowResult extends StatefulWidget {
 }
 
 class _ShowResultState extends State<ShowResult> {
-  String? result;
+  Iterable<String>? results;
 
   final nodeDataProvider = VSNodeDataProvider();
 
   @override
   Widget build(BuildContext context) {
     final nodeBuilders = {
-      "Dynamic": {
-        "Simple dynamic node": (Offset offset, VSOutputData? ref) => VSNodeData(
-              title: "Simple dynamic node",
-              widgetOffset: offset,
-              inputData: [
-                VSDynamicInputData(
-                  name: "input",
-                  initialConnection: ref,
-                )
-              ],
-              outputData: [
-                VSDynamicOutputData(
-                  name: "output",
-                  outputFunction: (data) => data.first,
-                ),
-              ],
-            ),
-      },
       "Numbers": {
-        "Simple int node": (Offset offset, VSOutputData? ref) => VSNodeData(
-              title: "Simple int node",
+        "Parse int node": (Offset offset, VSOutputData? ref) => VSNodeData(
+              title: "Parse int node",
               widgetOffset: offset,
-              inputData: [],
+              inputData: [VSStringInputData(name: "Input")],
               outputData: [
                 VSIntOutputData(
-                  name: "5",
-                  outputFunction: (data) => 5,
+                  name: "Output",
+                  outputFunction: (data) => int.parse(data.first),
                 ),
               ],
             ),
-        "Simple double node": (Offset offset, VSOutputData? ref) => VSNodeData(
-              title: "Simple double node",
+        "Parse double node": (Offset offset, VSOutputData? ref) => VSNodeData(
+              title: "Parse double node",
               widgetOffset: offset,
-              inputData: [],
+              inputData: [VSStringInputData(name: "Input")],
               outputData: [
                 VSDoubleOutputData(
-                  name: "2.5",
-                  outputFunction: (data) => 2.5,
+                  name: "Output",
+                  outputFunction: (data) => double.parse(data.first),
                 ),
               ],
             ),
@@ -109,21 +92,25 @@ class _ShowResultState extends State<ShowResult> {
               ],
             ),
       },
-      "To string": (Offset offset, VSOutputData? ref) => VSNodeData(
-            title: "To string",
+      "Input": (Offset offset, VSOutputData? ref) {
+        final controller = TextEditingController();
+        final input = TextField(
+          controller: controller,
+        );
+
+        return VSWidgetNode(
+          title: "Input",
+          widgetOffset: offset,
+          outputData: VSStringOutputData(
+            name: "output",
+            outputFunction: (data) => controller.text,
+          ),
+          child: Expanded(child: input),
+        );
+      },
+      "Output": (Offset offset, VSOutputData? ref) => VSEndNode(
+            title: "Output",
             widgetOffset: offset,
-            inputData: [
-              VSDynamicInputData(
-                name: "input",
-                initialConnection: ref,
-              )
-            ],
-            outputData: [
-              VSStringOutputData(
-                name: "output",
-                outputFunction: (data) => data.first.toString(),
-              ),
-            ],
           ),
     };
 
@@ -137,18 +124,22 @@ class _ShowResultState extends State<ShowResult> {
           top: 0,
           right: 0,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               ElevatedButton(
                 onPressed: () => setState(() {
-                  result = nodeDataProvider.getEndNode.evalGraph().toString();
+                  results = nodeDataProvider.getEndNodes
+                      .map((e) => e.evalGraph().toString());
                 }),
                 child: const Text("Evaluate"),
               ),
-              if (result != null)
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(result!),
+              if (results != null)
+                ...results!.map(
+                  (e) => Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(e),
+                    ),
                   ),
                 ),
             ],
