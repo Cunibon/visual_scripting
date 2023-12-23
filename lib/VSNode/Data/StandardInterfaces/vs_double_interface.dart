@@ -18,7 +18,7 @@ class VSDoubleInputData extends VSInputData {
 class VSDoubleOutputData extends VSOutputData<double> {
   VSDoubleOutputData({
     required super.name,
-    required super.outputFunction,
+    super.outputFunction,
   });
 
   @override

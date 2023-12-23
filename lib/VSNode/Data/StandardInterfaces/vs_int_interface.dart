@@ -18,7 +18,7 @@ class VSIntInputData extends VSInputData {
 class VSIntOutputData extends VSOutputData<int> {
   VSIntOutputData({
     required super.name,
-    required super.outputFunction,
+    super.outputFunction,
   });
 
   @override

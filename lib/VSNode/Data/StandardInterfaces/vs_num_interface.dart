@@ -23,7 +23,7 @@ class VSNumInputData extends VSInputData {
 class VSNumOutputData extends VSOutputData<num> {
   VSNumOutputData({
     required super.name,
-    required super.outputFunction,
+    super.outputFunction,
   });
 
   @override

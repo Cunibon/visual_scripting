@@ -17,7 +17,7 @@ class VSStringInputData extends VSInputData {
 class VSStringOutputData extends VSOutputData<String> {
   VSStringOutputData({
     required super.name,
-    required super.outputFunction,
+    super.outputFunction,
   });
 
   @override

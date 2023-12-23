@@ -22,7 +22,7 @@ class VSDynamicInputData extends VSInputData {
 class VSDynamicOutputData extends VSOutputData<dynamic> {
   VSDynamicOutputData({
     required super.name,
-    required super.outputFunction,
+    super.outputFunction,
   });
 
   @override

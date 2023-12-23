@@ -39,8 +39,8 @@ abstract class VSInputData extends VSInterfaceData {
 abstract class VSOutputData<T> extends VSInterfaceData {
   VSOutputData({
     required super.name,
-    required this.outputFunction,
+    this.outputFunction,
   });
 
-  final T Function(List<dynamic>) outputFunction;
+  final T Function(List<dynamic>)? outputFunction;
 }
