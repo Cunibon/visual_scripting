@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_dynamic_interface.dart';
+import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 
 class VSEndNode extends VSNodeData {
-  VSEndNode({
-    required String title,
-    required Offset widgetOffset,
-  }) : super(
+  VSEndNode(
+      {required String title, required Offset widgetOffset, VSOutputData? ref})
+      : super(
           title: title,
           widgetOffset: widgetOffset,
-          inputData: [VSDynamicInputData(name: title)],
+          inputData: [
+            VSDynamicInputData(
+              name: title,
+              initialConnection: ref,
+            )
+          ],
           outputData: const [],
         );
 

@@ -5,10 +5,11 @@ import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_num_interface
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_string_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
-import 'package:visual_scripting/VSNode/special_nodes/vs_end_node.dart';
-import 'package:visual_scripting/VSNode/special_nodes/vs_widget_node.dart';
-import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
-import 'package:visual_scripting/VSNode/vs_node_view.dart';
+import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Data/vs_subgroup.dart';
+import 'package:visual_scripting/VSNode/SpecialNodes/vs_end_node.dart';
+import 'package:visual_scripting/VSNode/SpecialNodes/vs_widget_node.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node_view.dart';
 
 void main() => runApp(const MyApp());
 
@@ -35,64 +36,69 @@ class ShowResult extends StatefulWidget {
 class _ShowResultState extends State<ShowResult> {
   Iterable<String>? results;
 
-  final nodeDataProvider = VSNodeDataProvider();
+  late VSNodeDataProvider nodeDataProvider;
 
   @override
-  Widget build(BuildContext context) {
-    final nodeBuilders = {
-      "Numbers": {
-        "Parse int node": (Offset offset, VSOutputData? ref) => VSNodeData(
-              title: "Parse int node",
-              widgetOffset: offset,
-              inputData: [VSStringInputData(name: "Input")],
-              outputData: [
-                VSIntOutputData(
-                  name: "Output",
-                  outputFunction: (data) => int.parse(data.first),
-                ),
-              ],
-            ),
-        "Parse double node": (Offset offset, VSOutputData? ref) => VSNodeData(
-              title: "Parse double node",
-              widgetOffset: offset,
-              inputData: [VSStringInputData(name: "Input")],
-              outputData: [
-                VSDoubleOutputData(
-                  name: "Output",
-                  outputFunction: (data) => double.parse(data.first),
-                ),
-              ],
-            ),
-        "Sum node": (Offset offset, VSOutputData? ref) => VSNodeData(
-              title: "Sum node",
-              widgetOffset: offset,
-              inputData: [
-                VSNumInputData(
-                  name: "input",
-                  initialConnection: ref,
-                ),
-                VSNumInputData(
-                  name: "input",
-                  initialConnection: ref,
-                )
-              ],
-              outputData: [
-                VSNumOutputData(
-                  name: "output",
-                  outputFunction: (data) {
-                    num sum = 0;
-                    for (final number in data) {
-                      if (number != null) {
-                        sum += number as num;
+  void initState() {
+    super.initState();
+
+    final nodeBuilders = [
+      VSSubgroup(
+        name: "Numbers",
+        subgroup: [
+          (Offset offset, VSOutputData? ref) => VSNodeData(
+                title: "Parse int node",
+                widgetOffset: offset,
+                inputData: [VSStringInputData(name: "Input")],
+                outputData: [
+                  VSIntOutputData(
+                    name: "Output",
+                    outputFunction: (data) => int.parse(data.first),
+                  ),
+                ],
+              ),
+          (Offset offset, VSOutputData? ref) => VSNodeData(
+                title: "Parse double node",
+                widgetOffset: offset,
+                inputData: [VSStringInputData(name: "Input")],
+                outputData: [
+                  VSDoubleOutputData(
+                    name: "Output",
+                    outputFunction: (data) => double.parse(data.first),
+                  ),
+                ],
+              ),
+          (Offset offset, VSOutputData? ref) => VSNodeData(
+                title: "Sum node",
+                widgetOffset: offset,
+                inputData: [
+                  VSNumInputData(
+                    name: "input",
+                    initialConnection: ref,
+                  ),
+                  VSNumInputData(
+                    name: "input",
+                    initialConnection: ref,
+                  )
+                ],
+                outputData: [
+                  VSNumOutputData(
+                    name: "output",
+                    outputFunction: (data) {
+                      num sum = 0;
+                      for (final number in data) {
+                        if (number != null) {
+                          sum += number as num;
+                        }
                       }
-                    }
-                    return sum;
-                  },
-                ),
-              ],
-            ),
-      },
-      "Input": (Offset offset, VSOutputData? ref) {
+                      return sum;
+                    },
+                  ),
+                ],
+              ),
+        ],
+      ),
+      (Offset offset, VSOutputData? ref) {
         final controller = TextEditingController();
         final input = TextField(
           controller: controller,
@@ -108,16 +114,23 @@ class _ShowResultState extends State<ShowResult> {
           child: Expanded(child: input),
         );
       },
-      "Output": (Offset offset, VSOutputData? ref) => VSEndNode(
+      (Offset offset, VSOutputData? ref) => VSEndNode(
             title: "Output",
             widgetOffset: offset,
+            ref: ref,
           ),
-    };
+    ];
 
+    nodeDataProvider = VSNodeDataProvider(
+      nodeBuilders: nodeBuilders,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         VSNodeView(
-          nodeBuilders: nodeBuilders,
           provider: nodeDataProvider,
         ),
         Positioned(
@@ -161,3 +174,6 @@ class _ShowResultState extends State<ShowResult> {
     );
   }
 }
+
+//TODO: From list to map in function input
+//TODO: Use Nodebuilder to deserialize nodes to keep function ref 

@@ -6,17 +6,15 @@ import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
 
 class VSNodeView extends StatelessWidget {
   const VSNodeView({
-    required this.nodeBuilders,
-    this.provider,
+    required this.provider,
     super.key,
   });
 
-  final Map<String, dynamic> nodeBuilders;
-  final VSNodeDataProvider? provider;
+  final VSNodeDataProvider provider;
 
   @override
   Widget build(BuildContext context) {
-    final vsNodeDataProvider = provider ?? VSNodeDataProvider();
+    final vsNodeDataProvider = provider;
 
     return MultiProvider(
       providers: [
@@ -49,7 +47,7 @@ class VSNodeView extends StatelessWidget {
                 left: nodeDataProvider.contextMenuOffset!.offset.dx,
                 top: nodeDataProvider.contextMenuOffset!.offset.dy,
                 child: VSContextMenu(
-                  nodeBuilders: nodeBuilders,
+                  nodeBuilders: provider.nodeBuildersMap,
                 ),
               ),
           ],
