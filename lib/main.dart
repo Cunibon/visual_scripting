@@ -128,8 +128,20 @@ class _ShowResultState extends State<ShowResult> {
             children: [
               ElevatedButton(
                 onPressed: () => setState(() {
-                  results = nodeDataProvider.getEndNodes
-                      .map((e) => e.evalGraph().toString());
+                  results = nodeDataProvider.getEndNodes.map(
+                    (e) => e
+                        .evalGraph(
+                          onError: (_, __) => Future.delayed(Duration.zero, () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Colors.deepOrange,
+                                content: Text('An error occured'),
+                              ),
+                            );
+                          }),
+                        )
+                        .toString(),
+                  );
                 }),
                 child: const Text("Evaluate"),
               ),

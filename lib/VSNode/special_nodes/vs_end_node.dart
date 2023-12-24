@@ -13,11 +13,15 @@ class VSEndNode extends VSNodeData {
           outputData: const [],
         );
 
-  dynamic evalGraph() {
-    Map<String, List<dynamic>> nodeInputValues = {};
-    traverseInputNodes(nodeInputValues, this);
+  dynamic evalGraph({Function(Object e, StackTrace s)? onError}) {
+    try {
+      Map<String, List<dynamic>> nodeInputValues = {};
+      traverseInputNodes(nodeInputValues, this);
 
-    return nodeInputValues[id]!.first;
+      return nodeInputValues[id]!.first;
+    } catch (e, s) {
+      onError?.call(e, s);
+    }
   }
 
   void traverseInputNodes(
