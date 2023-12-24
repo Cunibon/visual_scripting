@@ -42,5 +42,5 @@ abstract class VSOutputData<T> extends VSInterfaceData {
     this.outputFunction,
   });
 
-  final T Function(List<dynamic>)? outputFunction;
+  final T Function(Map<String, dynamic>)? outputFunction;
 }

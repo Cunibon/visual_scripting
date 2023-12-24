@@ -20,20 +20,20 @@ class VSEndNode extends VSNodeData {
 
   dynamic evalGraph({Function(Object e, StackTrace s)? onError}) {
     try {
-      Map<String, List<dynamic>> nodeInputValues = {};
+      Map<String, Map<String, dynamic>> nodeInputValues = {};
       traverseInputNodes(nodeInputValues, this);
 
-      return nodeInputValues[id]!.first;
+      return nodeInputValues[id]!.values.first;
     } catch (e, s) {
       onError?.call(e, s);
     }
   }
 
   void traverseInputNodes(
-    Map<String, List<dynamic>> nodeInputValues,
+    Map<String, Map<String, dynamic>> nodeInputValues,
     VSNodeData data,
   ) {
-    List<dynamic> inputValues = [];
+    Map<String, dynamic> inputValues = {};
     for (final input in data.inputData) {
       final connectedNode = input.connectedNode;
       if (connectedNode != null) {
@@ -44,13 +44,11 @@ class VSEndNode extends VSNodeData {
           );
         }
 
-        inputValues.add(
-          connectedNode.outputFunction?.call(
-            nodeInputValues[connectedNode.nodeData.id]!,
-          ),
+        inputValues[input.name] = connectedNode.outputFunction?.call(
+          nodeInputValues[connectedNode.nodeData.id]!,
         );
       } else {
-        inputValues.add(null);
+        inputValues[input.name] = null;
       }
     }
     nodeInputValues[data.id] = inputValues;

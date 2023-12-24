@@ -53,7 +53,7 @@ class _ShowResultState extends State<ShowResult> {
                 outputData: [
                   VSIntOutputData(
                     name: "Output",
-                    outputFunction: (data) => int.parse(data.first),
+                    outputFunction: (data) => int.parse(data["Input"]),
                   ),
                 ],
               ),
@@ -64,7 +64,7 @@ class _ShowResultState extends State<ShowResult> {
                 outputData: [
                   VSDoubleOutputData(
                     name: "Output",
-                    outputFunction: (data) => double.parse(data.first),
+                    outputFunction: (data) => double.parse(data["Input"]),
                   ),
                 ],
               ),
@@ -73,11 +73,11 @@ class _ShowResultState extends State<ShowResult> {
                 widgetOffset: offset,
                 inputData: [
                   VSNumInputData(
-                    name: "input",
+                    name: "Input 1",
                     initialConnection: ref,
                   ),
                   VSNumInputData(
-                    name: "input",
+                    name: "Input 2",
                     initialConnection: ref,
                   )
                 ],
@@ -85,13 +85,7 @@ class _ShowResultState extends State<ShowResult> {
                   VSNumOutputData(
                     name: "output",
                     outputFunction: (data) {
-                      num sum = 0;
-                      for (final number in data) {
-                        if (number != null) {
-                          sum += number as num;
-                        }
-                      }
-                      return sum;
+                      return (data["Input 1"] ?? 0) + (data["Input 2"] ?? 0);
                     },
                   ),
                 ],
