@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
-import 'package:visual_scripting/VSNode/Data/vs_subgroup.dart';
+import 'package:visual_scripting/VSNode/Data/vs_node_serialization_manager.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_end_node.dart';
 
 typedef VSNodeDataBuilder = VSNodeData Function(Offset, VSOutputData?);
@@ -20,28 +20,14 @@ class VSNodeDataProvider extends ChangeNotifier {
   VSNodeDataProvider({
     required List<dynamic> nodeBuilders,
   }) {
-    void findNodes(
-      List<dynamic> builders,
-      Map<String, dynamic> builderMap,
-    ) {
-      for (final builder in builders) {
-        if (builder is VSSubgroup) {
-          final Map<String, dynamic> subMap = {};
-          findNodes(builder.subgroup, subMap);
-          builderMap[builder.name] = subMap;
-        } else {
-          final instance = builder(Offset.zero, null) as VSNodeData;
-          _nodes[instance.title] = instance;
-          builderMap[instance.title] = builder;
-        }
-      }
-    }
-
-    findNodes(nodeBuilders, nodeBuildersMap);
+    serializationManager = VSNodeSerializationManager(
+      nodeBuilders: nodeBuilders,
+    );
   }
 
-  final Map<String, VSNodeData> _nodes = {};
-  final Map<String, dynamic> nodeBuildersMap = {};
+  late VSNodeSerializationManager serializationManager;
+  Map<String, dynamic> get nodeBuildersMap =>
+      serializationManager.nodeBuildersMap;
 
   Iterable<VSEndNode> get getEndNodes => _data.values.whereType<VSEndNode>();
 

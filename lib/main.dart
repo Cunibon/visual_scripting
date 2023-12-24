@@ -169,5 +169,4 @@ class _ShowResultState extends State<ShowResult> {
   }
 }
 
-//TODO: From list to map in function input
 //TODO: Use Nodebuilder to deserialize nodes to keep function ref 
