@@ -12,6 +12,7 @@ import 'package:visual_scripting/VSNode/Data/vs_subgroup.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_end_node.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_widget_node.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node_view.dart';
+import 'package:visual_scripting/legend.dart';
 
 void main() => runApp(const MyApp());
 
@@ -184,7 +185,7 @@ class _ShowResultState extends State<ShowResult> {
           title: "Input",
           widgetOffset: offset,
           outputData: VSStringOutputData(
-            name: "output",
+            name: "Output",
             outputFunction: (data) => controller.text,
           ),
           child: Expanded(child: input),
@@ -208,6 +209,11 @@ class _ShowResultState extends State<ShowResult> {
       children: [
         VSNodeView(
           provider: nodeDataProvider,
+        ),
+        const Positioned(
+          bottom: 0,
+          right: 0,
+          child: Legend(),
         ),
         Positioned(
           top: 0,

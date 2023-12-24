@@ -23,16 +23,15 @@ abstract class VSInputData extends VSInterfaceData {
   VSOutputData? _connectedNode;
   VSOutputData? get connectedNode => _connectedNode;
   set connectedNode(VSOutputData? data) {
-    if (acceptInput(data)) {
+    if (data == null || acceptInput(data)) {
       _connectedNode = data;
     }
   }
 
   List<Type> get acceptedTypes;
-  bool acceptInput(VSOutputData? data) {
+  bool acceptInput(VSOutputData data) {
     return acceptedTypes.contains(data.runtimeType) ||
-        data.runtimeType == VSDynamicOutputData ||
-        data == null;
+        data.runtimeType == VSDynamicOutputData;
   }
 }
 

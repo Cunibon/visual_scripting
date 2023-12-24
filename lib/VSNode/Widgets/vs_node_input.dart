@@ -96,10 +96,15 @@ class _VSNodeInputState extends State<VSNodeInput> {
                   ),
                 );
               },
-              onAccept: (data) {
-                if (widget.data.acceptInput(data)) {
-                  updateConnectedNode(data);
+              onWillAccept: (data) {
+                if (data != null) {
+                  return widget.data.acceptInput(data);
+                } else {
+                  return false;
                 }
+              },
+              onAccept: (data) {
+                updateConnectedNode(data);
               },
             ),
           ),
