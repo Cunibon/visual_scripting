@@ -11,15 +11,15 @@ class VSBoolInputData extends VSInputData {
   List<Type> get acceptedTypes => [VSBoolOutputData];
 
   @override
-  Color get interfaceColor => Colors.yellow;
+  Color get interfaceColor => Colors.orange;
 }
 
-class VSBoolOutputData extends VSOutputData<double> {
+class VSBoolOutputData extends VSOutputData<bool> {
   VSBoolOutputData({
     required super.name,
     super.outputFunction,
   });
 
   @override
-  Color get interfaceColor => Colors.yellow;
+  Color get interfaceColor => Colors.orange;
 }

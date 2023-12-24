@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_bool_interface.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_double_interface.dart';
+import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_dynamic_interface.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_int_interface.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_num_interface.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_string_interface.dart';
@@ -49,7 +51,12 @@ class _ShowResultState extends State<ShowResult> {
           (Offset offset, VSOutputData? ref) => VSNodeData(
                 title: "Parse int node",
                 widgetOffset: offset,
-                inputData: [VSStringInputData(name: "Input")],
+                inputData: [
+                  VSStringInputData(
+                    name: "Input",
+                    initialConnection: ref,
+                  )
+                ],
                 outputData: [
                   VSIntOutputData(
                     name: "Output",
@@ -60,7 +67,12 @@ class _ShowResultState extends State<ShowResult> {
           (Offset offset, VSOutputData? ref) => VSNodeData(
                 title: "Parse double node",
                 widgetOffset: offset,
-                inputData: [VSStringInputData(name: "Input")],
+                inputData: [
+                  VSStringInputData(
+                    name: "Input",
+                    initialConnection: ref,
+                  )
+                ],
                 outputData: [
                   VSDoubleOutputData(
                     name: "Output",
@@ -87,6 +99,76 @@ class _ShowResultState extends State<ShowResult> {
                     outputFunction: (data) {
                       return (data["Input 1"] ?? 0) + (data["Input 2"] ?? 0);
                     },
+                  ),
+                ],
+              ),
+        ],
+      ),
+      VSSubgroup(
+        name: "Logik",
+        subgroup: [
+          (Offset offset, VSOutputData? ref) => VSNodeData(
+                title: "Bigger then",
+                widgetOffset: offset,
+                inputData: [
+                  VSNumInputData(
+                    name: "First",
+                    initialConnection: ref,
+                  ),
+                  VSNumInputData(
+                    name: "Second",
+                    initialConnection: ref,
+                  ),
+                ],
+                outputData: [
+                  VSBoolOutputData(
+                    name: "Output",
+                    outputFunction: (data) => data["First"] > data["Second"],
+                  ),
+                ],
+              ),
+          (Offset offset, VSOutputData? ref) => VSNodeData(
+                title: "The same",
+                widgetOffset: offset,
+                inputData: [
+                  VSDynamicInputData(
+                    name: "First",
+                    initialConnection: ref,
+                  ),
+                  VSDynamicInputData(
+                    name: "Second",
+                    initialConnection: ref,
+                  ),
+                ],
+                outputData: [
+                  VSBoolOutputData(
+                    name: "Output",
+                    outputFunction: (data) => data["First"] == data["Second"],
+                  ),
+                ],
+              ),
+          (Offset offset, VSOutputData? ref) => VSNodeData(
+                title: "If node",
+                widgetOffset: offset,
+                inputData: [
+                  VSBoolInputData(
+                    name: "Input",
+                    initialConnection: ref,
+                  ),
+                  VSDynamicInputData(
+                    name: "True",
+                    initialConnection: ref,
+                  ),
+                  VSDynamicInputData(
+                    name: "False",
+                    initialConnection: ref,
+                  ),
+                ],
+                outputData: [
+                  VSDynamicOutputData(
+                    name: "Output",
+                    outputFunction: (data) =>
+                        data["Input"] ? data["True"] : data["False"],
                   ),
                 ],
               ),
