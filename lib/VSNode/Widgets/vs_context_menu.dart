@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 
 class VSContextMenu extends StatefulWidget {
   const VSContextMenu({

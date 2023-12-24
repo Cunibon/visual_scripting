@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:visual_scripting/VSNode/vs_context_menu.dart';
-import 'package:visual_scripting/VSNode/vs_node.dart';
-import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_context_menu.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
 
 class VSNodeView extends StatelessWidget {
   const VSNodeView({

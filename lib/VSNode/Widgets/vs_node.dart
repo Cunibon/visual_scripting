@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
-import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
-import 'package:visual_scripting/VSNode/vs_node_input.dart';
-import 'package:visual_scripting/VSNode/vs_node_output.dart';
+import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node_input.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node_output.dart';
 
 class VSNode extends StatefulWidget {
   const VSNode({

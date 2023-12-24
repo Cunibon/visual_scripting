@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
-import 'package:visual_scripting/VSNode/special_nodes/vs_end_node.dart';
+import 'package:visual_scripting/VSNode/SpecialNodes/vs_end_node.dart';
 
 typedef VSNodeDataBuilder = VSNodeData Function(Offset, VSOutputData?);
 

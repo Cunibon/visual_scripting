@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
-import 'package:visual_scripting/VSNode/gradiant_line_drawer.dart';
-import 'package:visual_scripting/VSNode/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Widgets/gradiant_line_drawer.dart';
 
 const centerOffset = Offset(7.5, 7.5);
 
