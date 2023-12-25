@@ -26,24 +26,6 @@ class VSWidgetNode extends VSNodeData {
     return json..["value"] = getValue();
   }
 
-  @override
-  VSWidgetNode deserialize(
-    String id,
-    Offset widgetOffset,
-  ) {
-    final copy = VSWidgetNode(
-      id: id,
-      title: title,
-      widgetOffset: widgetOffset,
-      outputData: outputData.first,
-      setValue: setValue,
-      getValue: getValue,
-      child: child,
-    );
-
-    return copy;
-  }
-
   final Widget child;
   final Function(dynamic) setValue;
   final dynamic Function() getValue;
