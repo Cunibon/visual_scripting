@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/offset_extension.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
+import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_subgroup.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_widget_node.dart';
 
@@ -28,7 +29,7 @@ class VSNodeSerializationManager {
           }
         } else {
           final instance = builder(Offset.zero, null) as VSNodeData;
-          if (!_nodes.containsKey(instance.title)) {
+          if (!_nodeBuilders.containsKey(instance.title)) {
             final inputNames = instance.inputData.map((e) => e.name);
             if (inputNames.length != inputNames.toSet().length) {
               throw FormatException(
@@ -41,7 +42,7 @@ class VSNodeSerializationManager {
                 "There are 2 or more Outputs in the node ${instance.title} with the same name. There can only be one",
               );
             }
-            _nodes[instance.title] = instance;
+            _nodeBuilders[instance.title] = builder;
           } else {
             throw FormatException(
               "There are 2 or more nodes with the name ${instance.title}. There can only be one",
@@ -53,11 +54,11 @@ class VSNodeSerializationManager {
       }
     }
 
-    findNodes(nodeBuilders, nodeBuildersMap);
+    findNodes(nodeBuilders, contextNodeBuilders);
   }
 
-  final Map<String, VSNodeData> _nodes = {};
-  final Map<String, dynamic> nodeBuildersMap = {};
+  final Map<String, VSNodeDataBuilder> _nodeBuilders = {};
+  final Map<String, dynamic> contextNodeBuilders = {};
 
   String serializeNodes(Map<String, VSNodeData> data) {
     return jsonEncode(data);
@@ -68,10 +69,11 @@ class VSNodeSerializationManager {
 
     final Map<String, VSNodeData> decoded = data.map(
       (key, value) {
-        final node = _nodes[value["title"]]!.deserialize(
-          value["id"],
-          offsetFromJson(value["widgetOffset"]),
-        );
+        final node = _nodeBuilders[value["title"]]!(Offset.zero, null)
+          ..deserialize(
+            value["id"],
+            offsetFromJson(value["widgetOffset"]),
+          );
 
         if (value["value"] != null) {
           (node as VSWidgetNode).setValue(value["value"]);

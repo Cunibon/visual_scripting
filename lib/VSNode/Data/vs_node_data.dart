@@ -21,7 +21,7 @@ class VSNodeData {
     required this.widgetOffset,
     required this.inputData,
     required this.outputData,
-  }) : id = id ?? _getRandomString(10) {
+  }) : _id = id ?? _getRandomString(10) {
     for (var value in inputData) {
       value.nodeData = this;
     }
@@ -30,7 +30,8 @@ class VSNodeData {
     }
   }
 
-  final String id;
+  String _id;
+  String get id => _id;
   String title;
   Offset widgetOffset;
   Iterable<VSInputData> inputData;
@@ -46,19 +47,12 @@ class VSNodeData {
     };
   }
 
-  VSNodeData deserialize(
+  void deserialize(
     String id,
     Offset widgetOffset,
   ) {
-    final copy = VSNodeData(
-      id: id,
-      title: title,
-      widgetOffset: widgetOffset,
-      inputData: inputData,
-      outputData: outputData,
-    );
-
-    return copy;
+    _id = id;
+    widgetOffset = widgetOffset;
   }
 
   void setRefData(Map<String, VSOutputData> inputRefs) {

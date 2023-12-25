@@ -42,9 +42,7 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
   }
 
   void updateLinePosition(Offset newPosition) {
-    newPosition = renderBox.globalToLocal(newPosition);
-
-    setState(() => dragPos = newPosition);
+    setState(() => dragPos = renderBox.globalToLocal(newPosition));
   }
 
   @override
