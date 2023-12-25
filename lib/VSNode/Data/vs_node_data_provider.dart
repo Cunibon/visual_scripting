@@ -19,10 +19,15 @@ class ContextMenuContext {
 class VSNodeDataProvider extends ChangeNotifier {
   VSNodeDataProvider({
     required List<dynamic> nodeBuilders,
+    String? serializedNodes,
   }) {
     serializationManager = VSNodeSerializationManager(
       nodeBuilders: nodeBuilders,
     );
+
+    if (serializedNodes != null) {
+      _data = serializationManager.deserializeNodes(serializedNodes);
+    }
   }
 
   late VSNodeSerializationManager serializationManager;

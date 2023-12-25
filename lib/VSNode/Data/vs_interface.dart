@@ -33,6 +33,13 @@ abstract class VSInputData extends VSInterfaceData {
     return acceptedTypes.contains(data.runtimeType) ||
         data.runtimeType == VSDynamicOutputData;
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "connectedNode": connectedNode?.toJson(),
+    };
+  }
 }
 
 abstract class VSOutputData<T> extends VSInterfaceData {
@@ -42,4 +49,11 @@ abstract class VSOutputData<T> extends VSInterfaceData {
   });
 
   final T Function(Map<String, dynamic>)? outputFunction;
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "nodeData": nodeData.id,
+    };
+  }
 }

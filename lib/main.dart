@@ -189,6 +189,8 @@ class _ShowResultState extends State<ShowResult> {
             outputFunction: (data) => controller.text,
           ),
           child: Expanded(child: input),
+          setValue: (value) => controller.text = value,
+          getValue: () => controller.text,
         );
       },
       (Offset offset, VSOutputData? ref) => VSEndNode(
@@ -200,6 +202,8 @@ class _ShowResultState extends State<ShowResult> {
 
     nodeDataProvider = VSNodeDataProvider(
       nodeBuilders: nodeBuilders,
+      serializedNodes:
+          '{"4rCMEs2oOc":{"id":"4rCMEs2oOc","title":"Input","widgetOffset":{"dx":594.0,"dy":309.0},"inputData":[],"outputData":[{"name":"Output","nodeData":"4rCMEs2oOc"}],"value":"5"},"GUO7OtToRt":{"id":"GUO7OtToRt","title":"Parse int node","widgetOffset":{"dx":811.0,"dy":315.5},"inputData":[{"name":"Input","connectedNode":{"name":"Output","nodeData":"4rCMEs2oOc"}}],"outputData":[{"name":"Output","nodeData":"GUO7OtToRt"}]},"NT9bvpCrwC":{"id":"NT9bvpCrwC","title":"Output","widgetOffset":{"dx":1205.0,"dy":376.0},"inputData":[{"name":"Output","connectedNode":{"name":"output","nodeData":"UGLkE3VAjF"}}],"outputData":[]},"mwYCDVcj6M":{"id":"mwYCDVcj6M","title":"Input","widgetOffset":{"dx":602.0,"dy":520.0},"inputData":[],"outputData":[{"name":"Output","nodeData":"mwYCDVcj6M"}],"value":"4"},"c1HhNL9T1t":{"id":"c1HhNL9T1t","title":"Parse int node","widgetOffset":{"dx":837.0,"dy":520.0},"inputData":[{"name":"Input","connectedNode":{"name":"Output","nodeData":"mwYCDVcj6M"}}],"outputData":[{"name":"Output","nodeData":"c1HhNL9T1t"}]},"UGLkE3VAjF":{"id":"UGLkE3VAjF","title":"Sum node","widgetOffset":{"dx":1001.0,"dy":411.0},"inputData":[{"name":"Input 1","connectedNode":{"name":"Output","nodeData":"GUO7OtToRt"}},{"name":"Input 2","connectedNode":{"name":"Output","nodeData":"c1HhNL9T1t"}}],"outputData":[{"name":"output","nodeData":"UGLkE3VAjF"}]}}',
     );
   }
 
@@ -214,6 +218,18 @@ class _ShowResultState extends State<ShowResult> {
           bottom: 0,
           right: 0,
           child: Legend(),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          child: ElevatedButton(
+            onPressed: () => print(
+              nodeDataProvider.serializationManager.serializeNodes(
+                nodeDataProvider.data,
+              ),
+            ),
+            child: const Text("Serialize"),
+          ),
         ),
         Positioned(
           top: 0,
