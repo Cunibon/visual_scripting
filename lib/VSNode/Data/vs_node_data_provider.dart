@@ -32,7 +32,7 @@ class VSNodeDataProvider extends ChangeNotifier {
 
   late VSNodeSerializationManager serializationManager;
   Map<String, dynamic> get nodeBuildersMap =>
-      serializationManager.nodeBuildersMap;
+      serializationManager.contextNodeBuilders;
 
   Iterable<VSEndNode> get getEndNodes => _data.values.whereType<VSEndNode>();
 
@@ -41,6 +41,11 @@ class VSNodeDataProvider extends ChangeNotifier {
 
   void setData(VSNodeData nodeData) async {
     _data = Map.from(_data..[nodeData.id] = nodeData);
+    notifyListeners();
+  }
+
+  void removeNode(VSNodeData nodeData) async {
+    _data = Map.from(_data..remove(nodeData.id));
     notifyListeners();
   }
 

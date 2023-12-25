@@ -52,7 +52,7 @@ class VSNodeData {
     Offset widgetOffset,
   ) {
     _id = id;
-    widgetOffset = widgetOffset;
+    this.widgetOffset = widgetOffset;
   }
 
   void setRefData(Map<String, VSOutputData> inputRefs) {
