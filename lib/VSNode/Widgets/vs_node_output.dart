@@ -29,7 +29,7 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
 
     widget.data.widgetOffset = position - widget.data.nodeData.widgetOffset;
 
-    context.read<VSNodeDataProvider>().setData(widget.data.nodeData);
+    context.read<VSNodeDataProvider>().updateOrCreateNode(widget.data.nodeData);
   }
 
   @override

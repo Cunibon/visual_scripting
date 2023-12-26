@@ -2,6 +2,9 @@ import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_serialization_manager.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_end_node.dart';
 
+///Holds all relevant node data
+///Handles interactions with the data
+///Creates an instance of VSNodeSerializationManager to handle serializations
 class VSNodeManager {
   VSNodeManager({
     required List<dynamic> nodeBuilders,
@@ -12,7 +15,7 @@ class VSNodeManager {
     );
 
     if (serializedNodes != null) {
-      data = serializationManager.deserializeNodes(serializedNodes);
+      _data = serializationManager.deserializeNodes(serializedNodes);
     }
   }
 
@@ -20,11 +23,34 @@ class VSNodeManager {
   Map<String, dynamic> get nodeBuildersMap =>
       serializationManager.contextNodeBuilders;
 
-  Iterable<VSEndNode> get getEndNodes => data.values.whereType<VSEndNode>();
+  ///Returns all output nodes in the current node data
+  Iterable<VSOutputNode> get getOutputNodes =>
+      _data.values.whereType<VSOutputNode>();
 
-  Map<String, VSNodeData> data = {};
+  Map<String, VSNodeData> _data = {};
 
+  ///Returns a copy of the current node data
+  Map<String, VSNodeData> get data => Map.from(_data);
+
+  ///Calls serializationManager.serializeNodes with the current node data and returns a String
   String serializeNodes() {
-    return serializationManager.serializeNodes(data);
+    return serializationManager.serializeNodes(_data);
+  }
+
+  ///Updates or Creates a node
+  void updateOrCreateNode(VSNodeData nodeData) async {
+    _data = Map.from(_data..[nodeData.id] = nodeData);
+  }
+
+  ///Removes a node and clears all references
+  void removeNode(VSNodeData nodeData) async {
+    _data = Map.from(_data..remove(nodeData.id));
+    for (final node in _data.values) {
+      for (final input in node.inputData) {
+        if (input.connectedNode?.nodeData == nodeData) {
+          input.connectedNode = null;
+        }
+      }
+    }
   }
 }

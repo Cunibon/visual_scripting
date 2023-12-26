@@ -28,7 +28,7 @@ class _VSNodeInputState extends State<VSNodeInput> {
 
     widget.data.widgetOffset = position - widget.data.nodeData.widgetOffset;
 
-    context.read<VSNodeDataProvider>().setData(widget.data.nodeData);
+    context.read<VSNodeDataProvider>().updateOrCreateNode(widget.data.nodeData);
   }
 
   @override
@@ -54,7 +54,7 @@ class _VSNodeInputState extends State<VSNodeInput> {
 
   void updateConnectedNode(VSOutputData? data) {
     widget.data.connectedNode = data;
-    context.read<VSNodeDataProvider>().setData(
+    context.read<VSNodeDataProvider>().updateOrCreateNode(
           widget.data.nodeData,
         );
   }

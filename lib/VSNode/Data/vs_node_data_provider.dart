@@ -5,6 +5,8 @@ import 'package:visual_scripting/VSNode/Data/vs_node_manager.dart';
 
 typedef VSNodeDataBuilder = VSNodeData Function(Offset, VSOutputData?);
 
+///Small data class to keep track of where the context menu is in 2D space
+///and if it was opend through a reference
 class ContextMenuContext {
   ContextMenuContext({
     required this.offset,
@@ -15,6 +17,7 @@ class ContextMenuContext {
   VSOutputData? reference;
 }
 
+///Wraps VSNodeManager to allow UI interaction and updates
 class VSNodeDataProvider extends ChangeNotifier {
   VSNodeDataProvider({
     required List<dynamic> nodeBuilders,
@@ -27,31 +30,27 @@ class VSNodeDataProvider extends ChangeNotifier {
   }
 
   late VSNodeManager nodeManger;
-
   Map<String, dynamic> get nodeBuildersMap => nodeManger.nodeBuildersMap;
-
   Map<String, VSNodeData> get data => nodeManger.data;
-  set data(Map<String, VSNodeData> data) => nodeManger.data = data;
 
-  void setData(VSNodeData nodeData) async {
-    data = Map.from(data..[nodeData.id] = nodeData);
+  ///Updates an existing node or creates it
+  ///Notifies listeners to this provider
+  void updateOrCreateNode(VSNodeData nodeData) async {
+    nodeManger.updateOrCreateNode(nodeData);
     notifyListeners();
   }
 
+  ///Removes a node
+  ///Notifies listeners to this provider
   void removeNode(VSNodeData nodeData) async {
-    nodeManger.data = Map.from(nodeManger.data..remove(nodeData.id));
-    for (final node in nodeManger.data.values) {
-      for (final input in node.inputData) {
-        if (input.connectedNode?.nodeData == nodeData) {
-          input.connectedNode = null;
-        }
-      }
-    }
+    nodeManger.removeNode(nodeData);
     notifyListeners();
   }
 
-  void createNode(VSNodeDataBuilder builder) {
-    setData(
+  ///Creates a node based on the builder and the current contextMenu
+  ///Notifies listeners to this provider
+  void createNodeFromContext(VSNodeDataBuilder builder) {
+    updateOrCreateNode(
       builder(
         _contextMenuOffset!.offset,
         _contextMenuOffset!.reference,
@@ -62,6 +61,8 @@ class VSNodeDataProvider extends ChangeNotifier {
   ContextMenuContext? _contextMenuOffset;
   ContextMenuContext? get contextMenuOffset => _contextMenuOffset;
 
+  ///Opens the context menu at a given postion
+  ///If the context menu was opened through a reference it will also be passed
   void openContextMenu({
     required Offset position,
     VSOutputData? outputData,
@@ -73,6 +74,7 @@ class VSNodeDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///Closes the context menu
   void closeContextMenu() {
     _contextMenuOffset = null;
     notifyListeners();

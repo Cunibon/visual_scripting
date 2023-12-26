@@ -3,8 +3,8 @@ import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_dynamic_inter
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 
-class VSEndNode extends VSNodeData {
-  VSEndNode(
+class VSOutputNode extends VSNodeData {
+  VSOutputNode(
       {required String title, required Offset widgetOffset, VSOutputData? ref})
       : super(
           title: title,

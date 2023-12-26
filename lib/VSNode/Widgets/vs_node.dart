@@ -40,7 +40,7 @@ class _VSNodeState extends State<VSNode> {
 
     return Draggable(
       onDragEnd: (details) {
-        context.read<VSNodeDataProvider>().setData(
+        context.read<VSNodeDataProvider>().updateOrCreateNode(
               widget.data..widgetOffset = details.offset,
             );
       },

@@ -51,7 +51,7 @@ class _VSContextMenuState extends State<VSContextMenu> {
         widgets.add(TextButton(
           onPressed: () {
             final dataProvider = context.read<VSNodeDataProvider>();
-            dataProvider.createNode(entry.value);
+            dataProvider.createNodeFromContext(entry.value);
             dataProvider.closeContextMenu();
           },
           child: Text(entry.key),

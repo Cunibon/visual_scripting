@@ -74,7 +74,7 @@ class _ShowResultState extends State<ShowResult> {
           getValue: () => controller.text,
         );
       },
-      (Offset offset, VSOutputData? ref) => VSEndNode(
+      (Offset offset, VSOutputData? ref) => VSOutputNode(
             title: "Output",
             widgetOffset: offset,
             ref: ref,
@@ -126,7 +126,7 @@ class _ShowResultState extends State<ShowResult> {
             children: [
               ElevatedButton(
                 onPressed: () => setState(() {
-                  results = nodeDataProvider.nodeManger.getEndNodes.map(
+                  results = nodeDataProvider.nodeManger.getOutputNodes.map(
                     (e) => e
                         .evalGraph(
                           onError: (_, __) => Future.delayed(Duration.zero, () {
