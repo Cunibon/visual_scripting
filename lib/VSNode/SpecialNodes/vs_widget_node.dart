@@ -3,6 +3,9 @@ import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 
 class VSWidgetNode extends VSNodeData {
+  ///Widget Node
+  ///
+  ///Can be used to add a custom UI component to a node
   VSWidgetNode({
     String? id,
     required String title,
@@ -27,6 +30,10 @@ class VSWidgetNode extends VSNodeData {
   }
 
   final Widget child;
+
+  ///Used to set the value of the supplied widget during deserialization
   final Function(dynamic) setValue;
+
+  ///Used to get the value of the supplied widget during serialization
   final dynamic Function() getValue;
 }

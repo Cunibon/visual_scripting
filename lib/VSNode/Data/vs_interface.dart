@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_dynamic_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 
+///Base interface class
+///Used for base input and output interface
 abstract class VSInterfaceData {
   VSInterfaceData({required this.name});
 
@@ -12,6 +14,9 @@ abstract class VSInterfaceData {
   Offset? widgetOffset;
 }
 
+///Base input interface
+///Makes sure only correct types can be connected
+///Implemetes toJson
 abstract class VSInputData extends VSInterfaceData {
   VSInputData({
     required super.name,
@@ -42,6 +47,8 @@ abstract class VSInputData extends VSInterfaceData {
   }
 }
 
+///Base output interface
+///Implemetes toJson
 abstract class VSOutputData<T> extends VSInterfaceData {
   VSOutputData({
     required super.name,

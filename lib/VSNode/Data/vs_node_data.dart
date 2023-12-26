@@ -15,6 +15,7 @@ String _getRandomString(int length) => String.fromCharCodes(
     );
 
 class VSNodeData {
+  ///Holds all relevant node data
   VSNodeData({
     String? id,
     required this.title,
@@ -47,7 +48,9 @@ class VSNodeData {
     };
   }
 
-  void deserialize(
+  ///Used for deserializing
+  ///Sets base node data id and offset
+  void setBaseData(
     String id,
     Offset widgetOffset,
   ) {
@@ -55,6 +58,9 @@ class VSNodeData {
     this.widgetOffset = widgetOffset;
   }
 
+  ///Used for deserializing
+  ///Reconstructs connections
+  ///Maps inputRefs to the corresponding connection inside this node
   void setRefData(Map<String, VSOutputData?> inputRefs) {
     Map<String, VSInputData> inputMap = {
       for (final element in inputData) element.name: element

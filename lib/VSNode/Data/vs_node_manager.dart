@@ -2,10 +2,12 @@ import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_serialization_manager.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_end_node.dart';
 
-///Holds all relevant node data
-///Handles interactions with the data
-///Creates an instance of VSNodeSerializationManager to handle serializations
 class VSNodeManager {
+  ///Holds all relevant node data
+  ///
+  ///Handles interactions with the data
+  ///
+  ///Creates an instance of VSNodeSerializationManager to handle serializations
   VSNodeManager({
     required List<dynamic> nodeBuilders,
     String? serializedNodes,

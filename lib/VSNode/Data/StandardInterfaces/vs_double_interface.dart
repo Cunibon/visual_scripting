@@ -3,6 +3,7 @@ import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_num_interface
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 
 class VSDoubleInputData extends VSInputData {
+  ///Basic double input interface
   VSDoubleInputData({
     required super.name,
     super.initialConnection,
@@ -16,6 +17,7 @@ class VSDoubleInputData extends VSInputData {
 }
 
 class VSDoubleOutputData extends VSOutputData<double> {
+  ///Basic double output interface
   VSDoubleOutputData({
     required super.name,
     super.outputFunction,

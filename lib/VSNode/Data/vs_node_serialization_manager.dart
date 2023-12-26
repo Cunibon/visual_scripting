@@ -9,6 +9,11 @@ import 'package:visual_scripting/VSNode/Data/vs_subgroup.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_widget_node.dart';
 
 class VSNodeSerializationManager {
+  ///Builds maps based on supplied nodeBuilders
+  ///
+  ///Makes sure supplied nodeBuilders follow guidlines
+  ///
+  ///Handles serialization and deserialization
   VSNodeSerializationManager({
     required List<dynamic> nodeBuilders,
   }) {
@@ -60,17 +65,23 @@ class VSNodeSerializationManager {
   final Map<String, VSNodeDataBuilder> _nodeBuilders = {};
   final Map<String, dynamic> contextNodeBuilders = {};
 
+  ///Calls jsonEncode on data
   String serializeNodes(Map<String, VSNodeData> data) {
     return jsonEncode(data);
   }
 
+  ///Deserializes data in two steps:
+  ///1. builds new nodes with position and id from saved data
+  ///2. reconstruct connections between the nodes
+  ///
+  ///Returns a Map<NodeId,VSNodeData>
   Map<String, VSNodeData> deserializeNodes(String dataString) {
     final data = jsonDecode(dataString) as Map<String, dynamic>;
 
     final Map<String, VSNodeData> decoded = data.map(
       (key, value) {
         final node = _nodeBuilders[value["title"]]!(Offset.zero, null)
-          ..deserialize(
+          ..setBaseData(
             value["id"],
             offsetFromJson(value["widgetOffset"]),
           );

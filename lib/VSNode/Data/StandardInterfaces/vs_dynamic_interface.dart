@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 
 class VSDynamicInputData extends VSInputData {
+  ///Basic dynamic input interface
   VSDynamicInputData({
     required super.name,
     super.initialConnection,
@@ -20,6 +21,7 @@ class VSDynamicInputData extends VSInputData {
 }
 
 class VSDynamicOutputData extends VSOutputData<dynamic> {
+  ///Basic dynamic output interface
   VSDynamicOutputData({
     required super.name,
     super.outputFunction,

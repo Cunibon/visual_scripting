@@ -17,8 +17,8 @@ class ContextMenuContext {
   VSOutputData? reference;
 }
 
-///Wraps VSNodeManager to allow UI interaction and updates
 class VSNodeDataProvider extends ChangeNotifier {
+  ///Wraps VSNodeManager to allow UI interaction and updates
   VSNodeDataProvider({
     required List<dynamic> nodeBuilders,
     String? serializedNodes,

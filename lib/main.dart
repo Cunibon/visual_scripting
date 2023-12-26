@@ -128,7 +128,7 @@ class _ShowResultState extends State<ShowResult> {
                 onPressed: () => setState(() {
                   results = nodeDataProvider.nodeManger.getOutputNodes.map(
                     (e) => e
-                        .evalGraph(
+                        .evalTree(
                           onError: (_, __) => Future.delayed(Duration.zero, () {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

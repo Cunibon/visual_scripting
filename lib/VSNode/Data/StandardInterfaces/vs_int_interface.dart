@@ -3,6 +3,7 @@ import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_num_interface
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 
 class VSIntInputData extends VSInputData {
+  ///Basic int input interface
   VSIntInputData({
     required super.name,
     super.initialConnection,
@@ -16,6 +17,7 @@ class VSIntInputData extends VSInputData {
 }
 
 class VSIntOutputData extends VSOutputData<int> {
+  ///Basic int output interface
   VSIntOutputData({
     required super.name,
     super.outputFunction,

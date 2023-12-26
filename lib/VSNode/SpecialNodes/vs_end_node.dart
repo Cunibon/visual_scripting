@@ -4,6 +4,9 @@ import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 
 class VSOutputNode extends VSNodeData {
+  ///Output Node
+  ///
+  ///Used to traverse the node tree and evalutate them to a result
   VSOutputNode(
       {required String title, required Offset widgetOffset, VSOutputData? ref})
       : super(
@@ -18,10 +21,13 @@ class VSOutputNode extends VSNodeData {
           outputData: const [],
         );
 
-  dynamic evalGraph({Function(Object e, StackTrace s)? onError}) {
+  ///Evalutes the tree from this node
+  ///Returns the result
+  ///Supply an onError function to be called when an error occures inside the evaluation
+  dynamic evalTree({Function(Object e, StackTrace s)? onError}) {
     try {
       Map<String, Map<String, dynamic>> nodeInputValues = {};
-      traverseInputNodes(nodeInputValues, this);
+      _traverseInputNodes(nodeInputValues, this);
 
       return nodeInputValues[id]!.values.first;
     } catch (e, s) {
@@ -29,7 +35,9 @@ class VSOutputNode extends VSNodeData {
     }
   }
 
-  void traverseInputNodes(
+  ///Traverses input nodes
+  ///Used by evalTree to recursivly move through the nodes
+  void _traverseInputNodes(
     Map<String, Map<String, dynamic>> nodeInputValues,
     VSNodeData data,
   ) {
@@ -38,7 +46,7 @@ class VSOutputNode extends VSNodeData {
       final connectedNode = input.connectedNode;
       if (connectedNode != null) {
         if (!nodeInputValues.containsKey(connectedNode.nodeData.id)) {
-          traverseInputNodes(
+          _traverseInputNodes(
             nodeInputValues,
             connectedNode.nodeData,
           );
