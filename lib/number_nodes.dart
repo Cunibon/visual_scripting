@@ -9,7 +9,7 @@ import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 
 List<VSNodeDataBuilder> numberNodes = [
   (Offset offset, VSOutputData? ref) => VSNodeData(
-        type: "Parse int node",
+        type: "Parse int",
         widgetOffset: offset,
         inputData: [
           VSStringInputData(
@@ -25,7 +25,7 @@ List<VSNodeDataBuilder> numberNodes = [
         ],
       ),
   (Offset offset, VSOutputData? ref) => VSNodeData(
-        type: "Parse double node",
+        type: "Parse double",
         widgetOffset: offset,
         inputData: [
           VSStringInputData(
@@ -41,7 +41,7 @@ List<VSNodeDataBuilder> numberNodes = [
         ],
       ),
   (Offset offset, VSOutputData? ref) => VSNodeData(
-        type: "Sum node",
+        type: "Sum",
         widgetOffset: offset,
         inputData: [
           VSNumInputData(

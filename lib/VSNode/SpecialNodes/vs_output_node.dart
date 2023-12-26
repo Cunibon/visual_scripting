@@ -26,15 +26,17 @@ class VSOutputNode extends VSNodeData {
   ///Evalutes the tree from this node
   ///Returns the result
   ///Supply an onError function to be called when an error occures inside the evaluation
-  dynamic evalTree({Function(Object e, StackTrace s)? onError}) {
+  MapEntry<String, dynamic> evalTree(
+      {Function(Object e, StackTrace s)? onError}) {
     try {
       Map<String, Map<String, dynamic>> nodeInputValues = {};
       _traverseInputNodes(nodeInputValues, this);
 
-      return nodeInputValues[id]!.values.first;
+      return MapEntry(title, nodeInputValues[id]!.values.first);
     } catch (e, s) {
       onError?.call(e, s);
     }
+    return MapEntry(title, null);
   }
 
   ///Traverses input nodes

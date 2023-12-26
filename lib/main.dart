@@ -4,7 +4,7 @@ import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_string_interf
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_subgroup.dart';
-import 'package:visual_scripting/VSNode/SpecialNodes/vs_end_node.dart';
+import 'package:visual_scripting/VSNode/SpecialNodes/vs_output_node.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_widget_node.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node_view.dart';
 import 'package:visual_scripting/legend.dart';
@@ -60,6 +60,10 @@ class _ShowResultState extends State<ShowResult> {
         final controller = TextEditingController();
         final input = TextField(
           controller: controller,
+          decoration: const InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+          ),
         );
 
         return VSWidgetNode(
@@ -126,20 +130,21 @@ class _ShowResultState extends State<ShowResult> {
             children: [
               ElevatedButton(
                 onPressed: () => setState(() {
-                  results = nodeDataProvider.nodeManger.getOutputNodes.map(
-                    (e) => e
-                        .evalTree(
-                          onError: (_, __) => Future.delayed(Duration.zero, () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: Colors.deepOrange,
-                                content: Text('An error occured'),
-                              ),
-                            );
-                          }),
-                        )
-                        .toString(),
+                  final entries =
+                      nodeDataProvider.nodeManger.getOutputNodes.map(
+                    (e) => e.evalTree(
+                      onError: (_, __) => Future.delayed(Duration.zero, () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            backgroundColor: Colors.deepOrange,
+                            content: Text('An error occured'),
+                          ),
+                        );
+                      }),
+                    ),
                   );
+
+                  results = entries.map((e) => "${e.key}: ${e.value}");
                 }),
                 child: const Text("Evaluate"),
               ),
@@ -159,5 +164,3 @@ class _ShowResultState extends State<ShowResult> {
     );
   }
 }
-
-//TODO: Use Nodebuilder to deserialize nodes to keep function ref 

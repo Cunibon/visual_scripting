@@ -48,7 +48,7 @@ List<VSNodeDataBuilder> logikNodes = [
         ],
       ),
   (Offset offset, VSOutputData? ref) => VSNodeData(
-        type: "If node",
+        type: "If",
         widgetOffset: offset,
         inputData: [
           VSBoolInputData(

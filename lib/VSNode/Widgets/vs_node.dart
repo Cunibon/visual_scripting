@@ -4,14 +4,17 @@ import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node_input.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node_output.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node_title.dart';
 
 class VSNode extends StatefulWidget {
   const VSNode({
     required this.data,
+    this.width = 120,
     super.key,
   });
 
   final VSNodeData data;
+  final double width;
 
   @override
   State<VSNode> createState() => _VSNodeState();
@@ -47,39 +50,32 @@ class _VSNodeState extends State<VSNode> {
       feedback: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            Text(widget.data.title),
-            const SizedBox(
-              width: 100,
-            )
-          ]),
+          child: Column(
+            children: [
+              Text(
+                widget.data.title,
+              ),
+              SizedBox(
+                width: widget.width,
+              )
+            ],
+          ),
         ),
       ),
-      child: Stack(
-        children: [
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text(widget.data.title),
-                  ...interfaceWidgets,
-                ],
-              ),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: widget.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                VSNodeTitle(data: widget.data),
+                ...interfaceWidgets,
+              ],
             ),
           ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: IconButton(
-              onPressed: () => context.read<VSNodeDataProvider>().removeNode(
-                    widget.data,
-                  ),
-              icon: const Icon(Icons.close),
-              iconSize: 20,
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

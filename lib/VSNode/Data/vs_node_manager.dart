@@ -1,6 +1,6 @@
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_serialization_manager.dart';
-import 'package:visual_scripting/VSNode/SpecialNodes/vs_end_node.dart';
+import 'package:visual_scripting/VSNode/SpecialNodes/vs_output_node.dart';
 
 class VSNodeManager {
   ///Holds all relevant node data

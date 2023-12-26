@@ -22,8 +22,7 @@ class VSNodeData {
     required this.widgetOffset,
     required this.inputData,
     required this.outputData,
-  })  : _id = id ?? _getRandomString(10),
-        title = type {
+  }) : _id = id ?? _getRandomString(10) {
     for (var value in inputData) {
       value.nodeData = this;
     }
@@ -35,16 +34,19 @@ class VSNodeData {
   String _id;
   String get id => _id;
   final String type;
-  String title;
   Offset widgetOffset;
   Iterable<VSInputData> inputData;
   Iterable<VSOutputData> outputData;
+
+  String _title = "";
+  String get title => _title.isNotEmpty ? _title : type;
+  set title(String data) => _title = data;
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'type': type,
-      'title': title,
+      'title': _title,
       'widgetOffset': widgetOffset.toJson(),
       'inputData': inputData,
       'outputData': outputData,
@@ -59,7 +61,7 @@ class VSNodeData {
     Offset widgetOffset,
   ) {
     _id = id;
-    this.title = title;
+    _title = title;
     this.widgetOffset = widgetOffset;
   }
 

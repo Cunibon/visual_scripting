@@ -51,47 +51,44 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
         ? (widget.data.nodeData as VSWidgetNode).child
         : Text(widget.data.name);
 
-    return SizedBox(
-      width: 100,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          firstItem,
-          CustomPaint(
-            foregroundPainter: GradientLinePainter(
-              startPoint: centerOffset,
-              endPoint: dragPos,
-              startColor: widget.data.interfaceColor,
-              endColor: widget.data.interfaceColor,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        firstItem,
+        CustomPaint(
+          foregroundPainter: GradientLinePainter(
+            startPoint: centerOffset,
+            endPoint: dragPos,
+            startColor: widget.data.interfaceColor,
+            endColor: widget.data.interfaceColor,
+          ),
+          child: Draggable<VSOutputData>(
+            data: widget.data,
+            onDragUpdate: (details) =>
+                updateLinePosition(details.localPosition),
+            onDragEnd: (details) => setState(() {
+              dragPos = null;
+            }),
+            onDraggableCanceled: (velocity, offset) {
+              context.read<VSNodeDataProvider>().openContextMenu(
+                    position: offset,
+                    outputData: widget.data,
+                  );
+            },
+            feedback: Icon(
+              Icons.circle,
+              color: widget.data.interfaceColor,
+              size: 15,
             ),
-            child: Draggable<VSOutputData>(
-              data: widget.data,
-              onDragUpdate: (details) =>
-                  updateLinePosition(details.localPosition),
-              onDragEnd: (details) => setState(() {
-                dragPos = null;
-              }),
-              onDraggableCanceled: (velocity, offset) {
-                context.read<VSNodeDataProvider>().openContextMenu(
-                      position: offset,
-                      outputData: widget.data,
-                    );
-              },
-              feedback: Icon(
-                Icons.circle,
-                color: widget.data.interfaceColor,
-                size: 15,
-              ),
-              child: Icon(
-                Icons.circle,
-                key: _anchor,
-                color: widget.data.interfaceColor,
-                size: 15,
-              ),
+            child: Icon(
+              Icons.circle,
+              key: _anchor,
+              color: widget.data.interfaceColor,
+              size: 15,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -64,53 +64,50 @@ class _VSNodeInputState extends State<VSNodeInput> {
     final icon = widget.data.connectedNode == null
         ? Icons.radio_button_unchecked
         : Icons.radio_button_checked;
-    return SizedBox(
-      width: 100,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CustomPaint(
-            foregroundPainter: GradientLinePainter(
-              startPoint: centerOffset,
-              endPoint: updateLinePosition(
-                widget.data.connectedNode,
-              ),
-              startColor: widget.data.interfaceColor,
-              endColor: widget.data.connectedNode?.interfaceColor,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CustomPaint(
+          foregroundPainter: GradientLinePainter(
+            startPoint: centerOffset,
+            endPoint: updateLinePosition(
+              widget.data.connectedNode,
             ),
-            child: DragTarget<VSOutputData>(
-              builder: (
-                BuildContext context,
-                List<dynamic> accepted,
-                List<dynamic> rejected,
-              ) {
-                return GestureDetector(
-                  onTap: () {
-                    updateConnectedNode(null);
-                  },
-                  child: Icon(
-                    icon,
-                    key: _anchor,
-                    color: widget.data.interfaceColor,
-                    size: 15,
-                  ),
-                );
-              },
-              onWillAccept: (data) {
-                if (data != null) {
-                  return widget.data.acceptInput(data);
-                } else {
-                  return false;
-                }
-              },
-              onAccept: (data) {
-                updateConnectedNode(data);
-              },
-            ),
+            startColor: widget.data.interfaceColor,
+            endColor: widget.data.connectedNode?.interfaceColor,
           ),
-          Text(widget.data.name),
-        ],
-      ),
+          child: DragTarget<VSOutputData>(
+            builder: (
+              BuildContext context,
+              List<dynamic> accepted,
+              List<dynamic> rejected,
+            ) {
+              return GestureDetector(
+                onTap: () {
+                  updateConnectedNode(null);
+                },
+                child: Icon(
+                  icon,
+                  key: _anchor,
+                  color: widget.data.interfaceColor,
+                  size: 15,
+                ),
+              );
+            },
+            onWillAccept: (data) {
+              if (data != null) {
+                return widget.data.acceptInput(data);
+              } else {
+                return false;
+              }
+            },
+            onAccept: (data) {
+              updateConnectedNode(data);
+            },
+          ),
+        ),
+        Text(widget.data.name),
+      ],
     );
   }
 }

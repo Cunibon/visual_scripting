@@ -34,27 +34,27 @@ class VSNodeSerializationManager {
           }
         } else {
           final instance = builder(Offset.zero, null) as VSNodeData;
-          if (!_nodeBuilders.containsKey(instance.title)) {
+          if (!_nodeBuilders.containsKey(instance.type)) {
             final inputNames = instance.inputData.map((e) => e.name);
             if (inputNames.length != inputNames.toSet().length) {
               throw FormatException(
-                "There are 2 or more Inputs in the node ${instance.title} with the same name. There can only be one",
+                "There are 2 or more Inputs in the node ${instance.type} with the same name. There can only be one",
               );
             }
             final outputNames = instance.outputData.map((e) => e.name);
             if (outputNames.length != outputNames.toSet().length) {
               throw FormatException(
-                "There are 2 or more Outputs in the node ${instance.title} with the same name. There can only be one",
+                "There are 2 or more Outputs in the node ${instance.type} with the same name. There can only be one",
               );
             }
-            _nodeBuilders[instance.title] = builder;
+            _nodeBuilders[instance.type] = builder;
           } else {
             throw FormatException(
-              "There are 2 or more nodes with the name ${instance.title}. There can only be one",
+              "There are 2 or more nodes with the name ${instance.type}. There can only be one",
             );
           }
 
-          builderMap[instance.title] = builder;
+          builderMap[instance.type] = builder;
         }
       }
     }
@@ -80,7 +80,7 @@ class VSNodeSerializationManager {
 
     final Map<String, VSNodeData> decoded = data.map(
       (key, value) {
-        final node = _nodeBuilders[value["title"]]!(Offset.zero, null)
+        final node = _nodeBuilders[value["type"]]!(Offset.zero, null)
           ..setBaseData(
             value["id"],
             value["title"],
