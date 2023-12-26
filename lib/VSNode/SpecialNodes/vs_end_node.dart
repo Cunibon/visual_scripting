@@ -7,14 +7,16 @@ class VSOutputNode extends VSNodeData {
   ///Output Node
   ///
   ///Used to traverse the node tree and evalutate them to a result
-  VSOutputNode(
-      {required String title, required Offset widgetOffset, VSOutputData? ref})
-      : super(
-          title: title,
+  VSOutputNode({
+    required String type,
+    required Offset widgetOffset,
+    VSOutputData? ref,
+  }) : super(
+          type: type,
           widgetOffset: widgetOffset,
           inputData: [
             VSDynamicInputData(
-              name: title,
+              name: type,
               initialConnection: ref,
             )
           ],

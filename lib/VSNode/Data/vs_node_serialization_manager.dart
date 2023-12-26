@@ -83,6 +83,7 @@ class VSNodeSerializationManager {
         final node = _nodeBuilders[value["title"]]!(Offset.zero, null)
           ..setBaseData(
             value["id"],
+            value["title"],
             offsetFromJson(value["widgetOffset"]),
           );
 

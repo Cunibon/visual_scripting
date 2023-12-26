@@ -63,7 +63,7 @@ class _ShowResultState extends State<ShowResult> {
         );
 
         return VSWidgetNode(
-          title: "Input",
+          type: "Input",
           widgetOffset: offset,
           outputData: VSStringOutputData(
             name: "Output",
@@ -75,7 +75,7 @@ class _ShowResultState extends State<ShowResult> {
         );
       },
       (Offset offset, VSOutputData? ref) => VSOutputNode(
-            title: "Output",
+            type: "Output",
             widgetOffset: offset,
             ref: ref,
           ),

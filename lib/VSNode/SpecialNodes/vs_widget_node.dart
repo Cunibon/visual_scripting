@@ -8,7 +8,7 @@ class VSWidgetNode extends VSNodeData {
   ///Can be used to add a custom UI component to a node
   VSWidgetNode({
     String? id,
-    required String title,
+    required String type,
     required Offset widgetOffset,
     required VSOutputData<dynamic> outputData,
     required this.setValue,
@@ -16,7 +16,7 @@ class VSWidgetNode extends VSNodeData {
     required this.child,
   }) : super(
           id: id,
-          title: title,
+          type: type,
           widgetOffset: widgetOffset,
           inputData: const [],
           outputData: [outputData],

@@ -8,7 +8,7 @@ import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 
 List<VSNodeDataBuilder> logikNodes = [
   (Offset offset, VSOutputData? ref) => VSNodeData(
-        title: "Bigger then",
+        type: "Bigger then",
         widgetOffset: offset,
         inputData: [
           VSNumInputData(
@@ -28,7 +28,7 @@ List<VSNodeDataBuilder> logikNodes = [
         ],
       ),
   (Offset offset, VSOutputData? ref) => VSNodeData(
-        title: "The same",
+        type: "The same",
         widgetOffset: offset,
         inputData: [
           VSDynamicInputData(
@@ -48,7 +48,7 @@ List<VSNodeDataBuilder> logikNodes = [
         ],
       ),
   (Offset offset, VSOutputData? ref) => VSNodeData(
-        title: "If node",
+        type: "If node",
         widgetOffset: offset,
         inputData: [
           VSBoolInputData(
