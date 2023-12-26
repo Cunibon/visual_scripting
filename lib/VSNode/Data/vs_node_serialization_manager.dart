@@ -88,15 +88,18 @@ class VSNodeSerializationManager {
 
     data.forEach((key, value) {
       final inputData = value["inputData"] as List<dynamic>;
-      final Map<String, VSOutputData> inputRefs = {};
+      final Map<String, VSOutputData?> inputRefs = {};
 
       for (final element in inputData) {
         final serializedOutput = element["connectedNode"];
-        final refOutput =
-            decoded[serializedOutput["nodeData"]]!.outputData.firstWhere(
-                  (element) => element.name == serializedOutput["name"],
-                );
-        inputRefs[element["name"]] = refOutput;
+
+        if (serializedOutput != null) {
+          final refOutput =
+              decoded[serializedOutput["nodeData"]]?.outputData.firstWhere(
+                    (element) => element.name == serializedOutput["name"],
+                  );
+          inputRefs[element["name"]] = refOutput;
+        }
       }
 
       decoded[key]!.setRefData(inputRefs);

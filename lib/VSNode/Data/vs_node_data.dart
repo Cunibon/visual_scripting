@@ -55,7 +55,7 @@ class VSNodeData {
     this.widgetOffset = widgetOffset;
   }
 
-  void setRefData(Map<String, VSOutputData> inputRefs) {
+  void setRefData(Map<String, VSOutputData?> inputRefs) {
     Map<String, VSInputData> inputMap = {
       for (final element in inputData) element.name: element
     };

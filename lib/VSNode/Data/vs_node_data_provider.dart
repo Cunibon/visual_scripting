@@ -46,6 +46,13 @@ class VSNodeDataProvider extends ChangeNotifier {
 
   void removeNode(VSNodeData nodeData) async {
     _data = Map.from(_data..remove(nodeData.id));
+    for (final node in _data.values) {
+      for (final input in node.inputData) {
+        if (input.connectedNode?.nodeData == nodeData) {
+          input.connectedNode = null;
+        }
+      }
+    }
     notifyListeners();
   }
 

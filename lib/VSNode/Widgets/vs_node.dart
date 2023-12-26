@@ -55,16 +55,31 @@ class _VSNodeState extends State<VSNode> {
           ]),
         ),
       ),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Text(widget.data.title),
-              ...interfaceWidgets,
-            ],
+      child: Stack(
+        children: [
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(widget.data.title),
+                  ...interfaceWidgets,
+                ],
+              ),
+            ),
           ),
-        ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+              onPressed: () => context.read<VSNodeDataProvider>().removeNode(
+                    widget.data,
+                  ),
+              icon: const Icon(Icons.close),
+              iconSize: 20,
+            ),
+          )
+        ],
       ),
     );
   }
