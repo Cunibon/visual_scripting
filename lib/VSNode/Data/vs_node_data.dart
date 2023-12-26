@@ -42,8 +42,8 @@ class VSNodeData {
       "id": id,
       'title': title,
       'widgetOffset': widgetOffset.toJson(),
-      "inputData": inputData.map((e) => e.toJson()).toList(),
-      "outputData": outputData.map((e) => e.toJson()).toList(),
+      "inputData": inputData,
+      "outputData": outputData,
     };
   }
 

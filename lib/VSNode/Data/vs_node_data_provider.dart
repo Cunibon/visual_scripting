@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
-import 'package:visual_scripting/VSNode/Data/vs_node_serialization_manager.dart';
-import 'package:visual_scripting/VSNode/SpecialNodes/vs_end_node.dart';
+import 'package:visual_scripting/VSNode/Data/vs_node_manager.dart';
 
 typedef VSNodeDataBuilder = VSNodeData Function(Offset, VSOutputData?);
 
@@ -21,32 +20,27 @@ class VSNodeDataProvider extends ChangeNotifier {
     required List<dynamic> nodeBuilders,
     String? serializedNodes,
   }) {
-    serializationManager = VSNodeSerializationManager(
+    nodeManger = VSNodeManager(
       nodeBuilders: nodeBuilders,
+      serializedNodes: serializedNodes,
     );
-
-    if (serializedNodes != null) {
-      _data = serializationManager.deserializeNodes(serializedNodes);
-    }
   }
 
-  late VSNodeSerializationManager serializationManager;
-  Map<String, dynamic> get nodeBuildersMap =>
-      serializationManager.contextNodeBuilders;
+  late VSNodeManager nodeManger;
 
-  Iterable<VSEndNode> get getEndNodes => _data.values.whereType<VSEndNode>();
+  Map<String, dynamic> get nodeBuildersMap => nodeManger.nodeBuildersMap;
 
-  Map<String, VSNodeData> _data = {};
-  Map<String, VSNodeData> get data => _data;
+  Map<String, VSNodeData> get data => nodeManger.data;
+  set data(Map<String, VSNodeData> data) => nodeManger.data = data;
 
   void setData(VSNodeData nodeData) async {
-    _data = Map.from(_data..[nodeData.id] = nodeData);
+    data = Map.from(data..[nodeData.id] = nodeData);
     notifyListeners();
   }
 
   void removeNode(VSNodeData nodeData) async {
-    _data = Map.from(_data..remove(nodeData.id));
-    for (final node in _data.values) {
+    nodeManger.data = Map.from(nodeManger.data..remove(nodeData.id));
+    for (final node in nodeManger.data.values) {
       for (final input in node.inputData) {
         if (input.connectedNode?.nodeData == nodeData) {
           input.connectedNode = null;

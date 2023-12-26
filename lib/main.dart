@@ -231,9 +231,7 @@ class _ShowResultState extends State<ShowResult> {
             onPressed: () async {
               storage.setItem(
                 'nodeData',
-                nodeDataProvider.serializationManager.serializeNodes(
-                  nodeDataProvider.data,
-                ),
+                nodeDataProvider.nodeManger.serializeNodes(),
               );
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -253,7 +251,7 @@ class _ShowResultState extends State<ShowResult> {
             children: [
               ElevatedButton(
                 onPressed: () => setState(() {
-                  results = nodeDataProvider.getEndNodes.map(
+                  results = nodeDataProvider.nodeManger.getEndNodes.map(
                     (e) => e
                         .evalGraph(
                           onError: (_, __) => Future.delayed(Duration.zero, () {

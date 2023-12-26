@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_context_menu.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
@@ -7,10 +8,22 @@ import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
 class VSNodeView extends StatelessWidget {
   const VSNodeView({
     required this.provider,
+    this.contextMenuBuilder,
+    this.nodeBuilder,
     super.key,
   });
 
   final VSNodeDataProvider provider;
+
+  final Widget Function(
+    BuildContext context,
+    VSNodeData data,
+  )? nodeBuilder;
+
+  final Widget Function(
+    BuildContext context,
+    Map<String, dynamic> nodeBuildersMap,
+  )? contextMenuBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +50,21 @@ class VSNodeView extends StatelessWidget {
               return Positioned(
                 left: value.widgetOffset.dx,
                 top: value.widgetOffset.dy,
-                child: VSNode(
-                  data: value,
-                ),
+                child: nodeBuilder?.call(context, value) ??
+                    VSNode(
+                      data: value,
+                    ),
               );
             }),
             if (nodeDataProvider.contextMenuOffset != null)
               Positioned(
                 left: nodeDataProvider.contextMenuOffset!.offset.dx,
                 top: nodeDataProvider.contextMenuOffset!.offset.dy,
-                child: VSContextMenu(
-                  nodeBuilders: provider.nodeBuildersMap,
-                ),
+                child: contextMenuBuilder?.call(
+                        context, provider.nodeBuildersMap) ??
+                    VSContextMenu(
+                      nodeBuilders: provider.nodeBuildersMap,
+                    ),
               ),
           ],
         );
