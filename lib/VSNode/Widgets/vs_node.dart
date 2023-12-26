@@ -9,7 +9,7 @@ import 'package:visual_scripting/VSNode/Widgets/vs_node_title.dart';
 class VSNode extends StatefulWidget {
   const VSNode({
     required this.data,
-    this.width = 120,
+    this.width = 125,
     super.key,
   });
 
