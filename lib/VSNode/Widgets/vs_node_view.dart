@@ -14,18 +14,22 @@ class VSNodeView extends StatelessWidget {
     super.key,
   });
 
+  ///The provider that will be used to controll the UI
   final VSNodeDataProvider provider;
 
+  ///Can be used to take control over the building of the nodes
   final Widget Function(
     BuildContext context,
     VSNodeData data,
   )? nodeBuilder;
 
+  ///Can be used to take control over the building of the context menu
   final Widget Function(
     BuildContext context,
     Map<String, dynamic> nodeBuildersMap,
   )? contextMenuBuilder;
 
+  ///Can be used to take control over the building of the nodes titles
   final Widget Function(
     BuildContext context,
     VSNodeData nodeData,
