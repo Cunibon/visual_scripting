@@ -10,6 +10,7 @@ class VSNodeView extends StatelessWidget {
     required this.provider,
     this.contextMenuBuilder,
     this.nodeBuilder,
+    this.nodeTitleBuilder,
     super.key,
   });
 
@@ -24,6 +25,11 @@ class VSNodeView extends StatelessWidget {
     BuildContext context,
     Map<String, dynamic> nodeBuildersMap,
   )? contextMenuBuilder;
+
+  final Widget Function(
+    BuildContext context,
+    VSNodeData nodeData,
+  )? nodeTitleBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +59,14 @@ class VSNodeView extends StatelessWidget {
                 child: nodeBuilder?.call(context, value) ??
                     VSNode(
                       data: value,
+                      nodeTitleBuilder: nodeTitleBuilder,
                     ),
               );
             }),
-            if (nodeDataProvider.contextMenuOffset != null)
+            if (nodeDataProvider.contextMenuContext != null)
               Positioned(
-                left: nodeDataProvider.contextMenuOffset!.offset.dx,
-                top: nodeDataProvider.contextMenuOffset!.offset.dy,
+                left: nodeDataProvider.contextMenuContext!.offset.dx,
+                top: nodeDataProvider.contextMenuContext!.offset.dy,
                 child: contextMenuBuilder?.call(
                         context, provider.nodeBuildersMap) ??
                     VSContextMenu(

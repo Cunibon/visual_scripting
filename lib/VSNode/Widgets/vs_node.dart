@@ -10,11 +10,16 @@ class VSNode extends StatefulWidget {
   const VSNode({
     required this.data,
     this.width = 125,
+    this.nodeTitleBuilder,
     super.key,
   });
 
   final VSNodeData data;
   final double width;
+  final Widget Function(
+    BuildContext context,
+    VSNodeData nodeData,
+  )? nodeTitleBuilder;
 
   @override
   State<VSNode> createState() => _VSNodeState();
@@ -70,7 +75,8 @@ class _VSNodeState extends State<VSNode> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                VSNodeTitle(data: widget.data),
+                widget.nodeTitleBuilder?.call(context, widget.data) ??
+                    VSNodeTitle(data: widget.data),
                 ...interfaceWidgets,
               ],
             ),
