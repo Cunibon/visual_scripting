@@ -7,7 +7,7 @@ import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
 
 class VSNodeView extends StatelessWidget {
   const VSNodeView({
-    required this.provider,
+    required this.nodeDataProvider,
     this.contextMenuBuilder,
     this.nodeBuilder,
     this.nodeTitleBuilder,
@@ -15,7 +15,7 @@ class VSNodeView extends StatelessWidget {
   });
 
   ///The provider that will be used to controll the UI
-  final VSNodeDataProvider provider;
+  final VSNodeDataProvider nodeDataProvider;
 
   ///Can be used to take control over the building of the nodes
   final Widget Function(
@@ -37,7 +37,7 @@ class VSNodeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vsNodeDataProvider = provider;
+    final vsNodeDataProvider = nodeDataProvider;
 
     return MultiProvider(
       providers: [
@@ -72,9 +72,9 @@ class VSNodeView extends StatelessWidget {
                 left: nodeDataProvider.contextMenuContext!.offset.dx,
                 top: nodeDataProvider.contextMenuContext!.offset.dy,
                 child: contextMenuBuilder?.call(
-                        context, provider.nodeBuildersMap) ??
+                        context, nodeDataProvider.nodeBuildersMap) ??
                     VSContextMenu(
-                      nodeBuilders: provider.nodeBuildersMap,
+                      nodeBuilders: nodeDataProvider.nodeBuildersMap,
                     ),
               ),
           ],

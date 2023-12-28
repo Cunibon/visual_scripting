@@ -27,9 +27,12 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
     renderBox = _anchor.currentContext?.findRenderObject() as RenderBox;
     Offset position = renderBox.localToGlobal(Offset.zero);
 
-    widget.data.widgetOffset = position - widget.data.nodeData.widgetOffset;
+    final provider = context.read<VSNodeDataProvider>();
 
-    context.read<VSNodeDataProvider>().updateOrCreateNode(widget.data.nodeData);
+    widget.data.widgetOffset = provider.applyViewPortTransfrom(position) -
+        widget.data.nodeData.widgetOffset;
+
+    provider.updateOrCreateNode(widget.data.nodeData);
   }
 
   @override

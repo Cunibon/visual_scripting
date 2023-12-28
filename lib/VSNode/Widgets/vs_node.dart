@@ -48,9 +48,12 @@ class _VSNodeState extends State<VSNode> {
 
     return Draggable(
       onDragEnd: (details) {
-        context.read<VSNodeDataProvider>().updateOrCreateNode(
-              widget.data..widgetOffset = details.offset,
-            );
+        final nodeProvider = context.read<VSNodeDataProvider>();
+        nodeProvider.updateOrCreateNode(
+          widget.data
+            ..widgetOffset =
+                nodeProvider.applyViewPortTransfrom(details.offset),
+        );
       },
       feedback: Card(
         child: Padding(

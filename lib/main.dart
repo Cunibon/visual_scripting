@@ -6,7 +6,7 @@ import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_subgroup.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_output_node.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_widget_node.dart';
-import 'package:visual_scripting/VSNode/Widgets/vs_node_view.dart';
+import 'package:visual_scripting/VSNode/Widgets/interactive_vs_node_view.dart';
 import 'package:visual_scripting/legend.dart';
 import 'package:visual_scripting/logik_nodes.dart';
 import 'package:visual_scripting/number_nodes.dart';
@@ -96,8 +96,10 @@ class _ShowResultState extends State<ShowResult> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        VSNodeView(
-          provider: nodeDataProvider,
+        InteractiveVSNodeView(
+          width: 5000,
+          height: 5000,
+          nodeDataProvider: nodeDataProvider,
         ),
         const Positioned(
           bottom: 0,
