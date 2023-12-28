@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 
+const Color _interfaceColor = Colors.grey;
+
 class VSDynamicInputData extends VSInputData {
   ///Basic dynamic input interface
   VSDynamicInputData({
@@ -17,7 +19,7 @@ class VSDynamicInputData extends VSInputData {
   }
 
   @override
-  Color get interfaceColor => Colors.grey;
+  Color get interfaceColor => _interfaceColor;
 }
 
 class VSDynamicOutputData extends VSOutputData<dynamic> {
@@ -28,5 +30,5 @@ class VSDynamicOutputData extends VSOutputData<dynamic> {
   });
 
   @override
-  Color get interfaceColor => Colors.grey;
+  Color get interfaceColor => _interfaceColor;
 }

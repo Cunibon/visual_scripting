@@ -3,6 +3,8 @@ import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_double_interf
 import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_int_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 
+const Color _interfaceColor = Colors.purple;
+
 class VSNumInputData extends VSInputData {
   ///Basic num input interface
   VSNumInputData({
@@ -18,7 +20,7 @@ class VSNumInputData extends VSInputData {
       ];
 
   @override
-  Color get interfaceColor => Colors.purple;
+  Color get interfaceColor => _interfaceColor;
 }
 
 class VSNumOutputData extends VSOutputData<num> {
@@ -29,5 +31,5 @@ class VSNumOutputData extends VSOutputData<num> {
   });
 
   @override
-  Color get interfaceColor => Colors.purple;
+  Color get interfaceColor => _interfaceColor;
 }

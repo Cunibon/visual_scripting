@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 
+const Color _interfaceColor = Colors.orange;
+
 class VSBoolInputData extends VSInputData {
   ///Basic boolean input interface
   VSBoolInputData({
@@ -12,7 +14,7 @@ class VSBoolInputData extends VSInputData {
   List<Type> get acceptedTypes => [VSBoolOutputData];
 
   @override
-  Color get interfaceColor => Colors.orange;
+  Color get interfaceColor => _interfaceColor;
 }
 
 class VSBoolOutputData extends VSOutputData<bool> {
@@ -23,5 +25,5 @@ class VSBoolOutputData extends VSOutputData<bool> {
   });
 
   @override
-  Color get interfaceColor => Colors.orange;
+  Color get interfaceColor => _interfaceColor;
 }

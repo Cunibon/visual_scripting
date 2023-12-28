@@ -1,14 +1,25 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node_view.dart';
 
 class InteractiveVSNodeView extends StatefulWidget {
+  ///Wraps [VSNodeView] in an [InteractiveViewer] this enables pan and zoom
+  ///
+  ///Creates a [SizedBox] of given width and height that will function as a canvas
+  ///
+  ///Width and height default to their coresponding screen dimension. If one of them is omited there will be no panning on that axis
   const InteractiveVSNodeView({
     super.key,
     this.controller,
     this.width,
     this.height,
+    this.scaleFactor = kDefaultMouseScrollToScaleFactor,
+    this.maxScale = 2,
+    this.minScale = 0.01,
+    this.scaleEnabled = true,
+    this.panEnabled = true,
     this.contextMenuBuilder,
     this.nodeBuilder,
     this.nodeTitleBuilder,
@@ -21,8 +32,30 @@ class InteractiveVSNodeView extends StatefulWidget {
   ///The provider that will be used to controll the UI
   final VSNodeDataProvider nodeDataProvider;
 
+  ///Width of the canvas
+  ///
+  ///Defaults to screen width
   final double? width;
+
+  ///Height of the canvas
+  ///
+  ///Defaults to screen height
   final double? height;
+
+  /// Determines the amount of scale to be performed per pointer scroll.
+  final double scaleFactor;
+
+  /// The maximum allowed scale.
+  final double maxScale;
+
+  /// The minimum allowed scale.
+  final double minScale;
+
+  /// If false, the user will be prevented from panning.
+  final bool panEnabled;
+
+  /// If false, the user will be prevented from scaling.
+  final bool scaleEnabled;
 
   ///Can be used to take control over the building of the nodes
   final Widget Function(
@@ -67,8 +100,8 @@ class _InteractiveVSNodeViewState extends State<InteractiveVSNodeView> {
     //Needs to be done with a listener to assure inertia doesnt messup the offset
     controller.addListener(
       () {
-        final scale = 1 / controller.value.getMaxScaleOnAxis();
-        widget.nodeDataProvider.viewportScale = scale;
+        widget.nodeDataProvider.viewportScale =
+            1 / controller.value.getMaxScaleOnAxis();
 
         widget.nodeDataProvider.viewportOffset = Offset(
           controller.value.getTranslation().x,
@@ -78,8 +111,11 @@ class _InteractiveVSNodeViewState extends State<InteractiveVSNodeView> {
     );
 
     return InteractiveViewer(
-      maxScale: 2,
-      minScale: 0.01,
+      maxScale: widget.maxScale,
+      minScale: widget.minScale,
+      scaleFactor: widget.scaleFactor,
+      scaleEnabled: widget.scaleEnabled,
+      panEnabled: widget.panEnabled,
       constrained: false,
       transformationController: controller,
       child: SizedBox(

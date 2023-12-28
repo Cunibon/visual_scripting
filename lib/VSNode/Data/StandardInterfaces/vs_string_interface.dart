@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 
+const Color _interfaceColor = Colors.green;
+
 class VSStringInputData extends VSInputData {
   ///Basic String input interface
   VSStringInputData({
@@ -12,7 +14,7 @@ class VSStringInputData extends VSInputData {
   List<Type> get acceptedTypes => [VSStringOutputData];
 
   @override
-  Color get interfaceColor => Colors.green;
+  Color get interfaceColor => _interfaceColor;
 }
 
 class VSStringOutputData extends VSOutputData<String> {
@@ -23,5 +25,5 @@ class VSStringOutputData extends VSOutputData<String> {
   });
 
   @override
-  Color get interfaceColor => Colors.green;
+  Color get interfaceColor => _interfaceColor;
 }

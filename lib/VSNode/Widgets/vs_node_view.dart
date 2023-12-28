@@ -6,6 +6,7 @@ import 'package:visual_scripting/VSNode/Widgets/vs_context_menu.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
 
 class VSNodeView extends StatelessWidget {
+  ///
   const VSNodeView({
     required this.nodeDataProvider,
     this.contextMenuBuilder,
@@ -62,6 +63,7 @@ class VSNodeView extends StatelessWidget {
                 top: value.widgetOffset.dy,
                 child: nodeBuilder?.call(context, value) ??
                     VSNode(
+                      key: ValueKey(value.id),
                       data: value,
                       nodeTitleBuilder: nodeTitleBuilder,
                     ),
