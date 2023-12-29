@@ -4,6 +4,7 @@ import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_context_menu.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_selection_area.dart';
 
 class VSNodeView extends StatelessWidget {
   ///The base node widget
@@ -11,6 +12,7 @@ class VSNodeView extends StatelessWidget {
   ///Display and interact with nodes to build node trees
   const VSNodeView({
     required this.nodeDataProvider,
+    this.enableSelection = true,
     this.contextMenuBuilder,
     this.nodeBuilder,
     this.nodeTitleBuilder,
@@ -19,6 +21,8 @@ class VSNodeView extends StatelessWidget {
 
   ///The provider that will be used to controll the UI
   final VSNodeDataProvider nodeDataProvider;
+
+  final bool enableSelection;
 
   ///Can be used to take control over the building of the nodes
   final Widget Function(
@@ -50,7 +54,7 @@ class VSNodeView extends StatelessWidget {
         builder: (context) {
           final nodeDataProvider = context.watch<VSNodeDataProvider>();
 
-          return Stack(
+          final view = Stack(
             children: [
               GestureDetector(
                 onTapDown: (details) => nodeDataProvider.closeContextMenu(),
@@ -84,6 +88,15 @@ class VSNodeView extends StatelessWidget {
                 ),
             ],
           );
+
+          if (enableSelection) {
+            return VSSelectionArea(
+              provider: nodeDataProvider,
+              child: view,
+            );
+          } else {
+            return view;
+          }
         },
       ),
     );
