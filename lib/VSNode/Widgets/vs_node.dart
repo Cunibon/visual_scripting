@@ -5,8 +5,12 @@ import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node_input.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node_output.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node_title.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node_view.dart';
 
 class VSNode extends StatefulWidget {
+  ///The base node widget
+  ///
+  ///Used inside [VSNodeView] to display nodes
   const VSNode({
     required this.data,
     this.width = 125,
@@ -15,7 +19,11 @@ class VSNode extends StatefulWidget {
   });
 
   final VSNodeData data;
+
+  ///Width of the node
   final double width;
+
+  ///Can be used to take control over the building of the nodes titles
   final Widget Function(
     BuildContext context,
     VSNodeData nodeData,

@@ -6,7 +6,9 @@ import 'package:visual_scripting/VSNode/Widgets/vs_context_menu.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
 
 class VSNodeView extends StatelessWidget {
+  ///The base node widget
   ///
+  ///Display and interact with nodes to build node trees
   const VSNodeView({
     required this.nodeDataProvider,
     this.contextMenuBuilder,
@@ -44,44 +46,46 @@ class VSNodeView extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: vsNodeDataProvider),
       ],
-      child: Builder(builder: (context) {
-        final nodeDataProvider = context.watch<VSNodeDataProvider>();
+      child: Builder(
+        builder: (context) {
+          final nodeDataProvider = context.watch<VSNodeDataProvider>();
 
-        return Stack(
-          children: [
-            GestureDetector(
-              onTapDown: (details) => nodeDataProvider.closeContextMenu(),
-              onSecondaryTapUp: (details) {
-                nodeDataProvider.openContextMenu(
-                  position: details.globalPosition,
-                );
-              },
-            ),
-            ...nodeDataProvider.data.values.map((value) {
-              return Positioned(
-                left: value.widgetOffset.dx,
-                top: value.widgetOffset.dy,
-                child: nodeBuilder?.call(context, value) ??
-                    VSNode(
-                      key: ValueKey(value.id),
-                      data: value,
-                      nodeTitleBuilder: nodeTitleBuilder,
-                    ),
-              );
-            }),
-            if (nodeDataProvider.contextMenuContext != null)
-              Positioned(
-                left: nodeDataProvider.contextMenuContext!.offset.dx,
-                top: nodeDataProvider.contextMenuContext!.offset.dy,
-                child: contextMenuBuilder?.call(
-                        context, nodeDataProvider.nodeBuildersMap) ??
-                    VSContextMenu(
-                      nodeBuilders: nodeDataProvider.nodeBuildersMap,
-                    ),
+          return Stack(
+            children: [
+              GestureDetector(
+                onTapDown: (details) => nodeDataProvider.closeContextMenu(),
+                onSecondaryTapUp: (details) {
+                  nodeDataProvider.openContextMenu(
+                    position: details.globalPosition,
+                  );
+                },
               ),
-          ],
-        );
-      }),
+              ...nodeDataProvider.data.values.map((value) {
+                return Positioned(
+                  left: value.widgetOffset.dx,
+                  top: value.widgetOffset.dy,
+                  child: nodeBuilder?.call(context, value) ??
+                      VSNode(
+                        key: ValueKey(value.id),
+                        data: value,
+                        nodeTitleBuilder: nodeTitleBuilder,
+                      ),
+                );
+              }),
+              if (nodeDataProvider.contextMenuContext != null)
+                Positioned(
+                  left: nodeDataProvider.contextMenuContext!.offset.dx,
+                  top: nodeDataProvider.contextMenuContext!.offset.dy,
+                  child: contextMenuBuilder?.call(
+                          context, nodeDataProvider.nodeBuildersMap) ??
+                      VSContextMenu(
+                        nodeBuilders: nodeDataProvider.nodeBuildersMap,
+                      ),
+                ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

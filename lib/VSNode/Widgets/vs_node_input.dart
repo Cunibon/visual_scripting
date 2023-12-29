@@ -3,10 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Widgets/gradiant_line_drawer.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
 
 const centerOffset = Offset(7.5, 7.5);
 
 class VSNodeInput extends StatefulWidget {
+  ///Base node input widget
+  ///
+  ///Used in [VSNode]
+  ///
+  ///Uses [DragTarget] to accept [VSOutputData]
   const VSNodeInput({
     required this.data,
     super.key,

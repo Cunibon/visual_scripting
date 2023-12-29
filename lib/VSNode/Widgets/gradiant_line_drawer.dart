@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 class GradientLinePainter extends CustomPainter {
-  final Offset? startPoint;
-  final Color? startColor;
-
-  final Offset? endPoint;
-  final Color? endColor;
-
+  ///Draws a line between 2 points with a gradient
   GradientLinePainter({
     this.startPoint,
     this.startColor,
     this.endPoint,
     this.endColor,
   });
+
+  final Offset? startPoint;
+  final Color? startColor;
+
+  final Offset? endPoint;
+  final Color? endColor;
 
   @override
   void paint(Canvas canvas, Size size) {

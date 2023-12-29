@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
 
 enum PopupOptions { rename, delete }
 
 class VSNodeTitle extends StatefulWidget {
+  ///Base node title widget
+  ///
+  ///Used in [VSNode] to build the title
   const VSNodeTitle({
     required this.data,
     super.key,

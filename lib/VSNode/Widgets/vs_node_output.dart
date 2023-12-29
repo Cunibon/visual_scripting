@@ -4,9 +4,15 @@ import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/SpecialNodes/vs_widget_node.dart';
 import 'package:visual_scripting/VSNode/Widgets/gradiant_line_drawer.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node_input.dart';
 
 class VSNodeOutput extends StatefulWidget {
+  ///Base node output widget
+  ///
+  ///Used in [VSNode]
+  ///
+  ///Uses [Draggable] to make a connection with [VSInputData]
   const VSNodeOutput({
     required this.data,
     super.key,

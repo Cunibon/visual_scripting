@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node_view.dart';
 
 class VSContextMenu extends StatefulWidget {
+  ///Base context menu
+  ///
+  ///Used in [VSNodeView] to create new nodes
   const VSContextMenu({
     required this.nodeBuilders,
     super.key,
   });
 
+  ///A map of all nodeBuilders. In this format:
+  ///
+  ///{
+  /// Subgroup:{
+  ///   nodeName: NodeBuilder
+  /// },
+  /// nodeName: NodeBuilder
+  ///}
   final Map<String, dynamic> nodeBuilders;
 
   @override
