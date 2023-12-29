@@ -68,6 +68,7 @@ class _VSNodeTitleState extends State<VSNodeTitle> {
               ),
             ),
             PopupMenuButton<PopupOptions>(
+              tooltip: "",
               child: const Icon(
                 Icons.more_vert,
                 size: 20,

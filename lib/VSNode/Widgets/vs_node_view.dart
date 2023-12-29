@@ -12,7 +12,7 @@ class VSNodeView extends StatelessWidget {
   ///Display and interact with nodes to build node trees
   const VSNodeView({
     required this.nodeDataProvider,
-    this.enableSelection = true,
+    this.enableSelectionArea = true,
     this.contextMenuBuilder,
     this.nodeBuilder,
     this.nodeTitleBuilder,
@@ -22,7 +22,7 @@ class VSNodeView extends StatelessWidget {
   ///The provider that will be used to controll the UI
   final VSNodeDataProvider nodeDataProvider;
 
-  final bool enableSelection;
+  final bool enableSelectionArea;
 
   ///Can be used to take control over the building of the nodes
   final Widget Function(
@@ -44,38 +44,41 @@ class VSNodeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vsNodeDataProvider = nodeDataProvider;
-
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: vsNodeDataProvider),
+        ChangeNotifierProvider.value(value: nodeDataProvider),
       ],
       child: Builder(
         builder: (context) {
           final nodeDataProvider = context.watch<VSNodeDataProvider>();
 
+          final nodes = nodeDataProvider.data.values.map((value) {
+            return Positioned(
+              left: value.widgetOffset.dx,
+              top: value.widgetOffset.dy,
+              child: nodeBuilder?.call(context, value) ??
+                  VSNode(
+                    key: ValueKey(value.id),
+                    data: value,
+                    nodeTitleBuilder: nodeTitleBuilder,
+                  ),
+            );
+          });
+
           final view = Stack(
             children: [
               GestureDetector(
-                onTapDown: (details) => nodeDataProvider.closeContextMenu(),
+                onTapDown: (details) {
+                  nodeDataProvider.closeContextMenu();
+                  nodeDataProvider.selectedNodes = {};
+                },
                 onSecondaryTapUp: (details) {
                   nodeDataProvider.openContextMenu(
                     position: details.globalPosition,
                   );
                 },
               ),
-              ...nodeDataProvider.data.values.map((value) {
-                return Positioned(
-                  left: value.widgetOffset.dx,
-                  top: value.widgetOffset.dy,
-                  child: nodeBuilder?.call(context, value) ??
-                      VSNode(
-                        key: ValueKey(value.id),
-                        data: value,
-                        nodeTitleBuilder: nodeTitleBuilder,
-                      ),
-                );
-              }),
+              ...nodes,
               if (nodeDataProvider.contextMenuContext != null)
                 Positioned(
                   left: nodeDataProvider.contextMenuContext!.offset.dx,
@@ -89,7 +92,7 @@ class VSNodeView extends StatelessWidget {
             ],
           );
 
-          if (enableSelection) {
+          if (enableSelectionArea) {
             return VSSelectionArea(
               provider: nodeDataProvider,
               child: view,

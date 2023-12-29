@@ -54,13 +54,13 @@ class _VSNodeState extends State<VSNode> {
       );
     }
 
+    final nodeProvider = context.read<VSNodeDataProvider>();
+
     return Draggable(
       onDragEnd: (details) {
-        final nodeProvider = context.read<VSNodeDataProvider>();
-        nodeProvider.updateOrCreateNode(
-          widget.data
-            ..widgetOffset =
-                nodeProvider.applyViewPortTransfrom(details.offset),
+        nodeProvider.moveNode(
+          widget.data,
+          details.offset,
         );
       },
       feedback: Card(
@@ -79,6 +79,9 @@ class _VSNodeState extends State<VSNode> {
         ),
       ),
       child: Card(
+        color: nodeProvider.selectedNodes.contains(widget.data.id)
+            ? Colors.lightBlue
+            : null,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(

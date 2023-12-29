@@ -40,8 +40,11 @@ class VSNodeManager {
   }
 
   ///Updates or Creates a node
-  void updateOrCreateNode(VSNodeData nodeData) async {
-    _data = Map.from(_data..[nodeData.id] = nodeData);
+  void updateOrCreateNodes(List<VSNodeData> nodeDatas) async {
+    for (final node in nodeDatas) {
+      _data[node.id] = node;
+    }
+    _data = Map.from(_data);
   }
 
   ///Removes a node and clears all references

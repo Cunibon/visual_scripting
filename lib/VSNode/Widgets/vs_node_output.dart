@@ -38,7 +38,7 @@ class _VSNodeOutputState extends State<VSNodeOutput> {
     widget.data.widgetOffset = provider.applyViewPortTransfrom(position) -
         widget.data.nodeData.widgetOffset;
 
-    provider.updateOrCreateNode(widget.data.nodeData);
+    provider.updateOrCreateNodes([widget.data.nodeData]);
   }
 
   @override

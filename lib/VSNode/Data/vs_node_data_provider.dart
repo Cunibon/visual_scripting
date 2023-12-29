@@ -38,9 +38,30 @@ class VSNodeDataProvider extends ChangeNotifier {
   ///Updates an existing node or creates it
   ///
   ///Notifies listeners to this provider
-  void updateOrCreateNode(VSNodeData nodeData) async {
-    nodeManger.updateOrCreateNode(nodeData);
+  void updateOrCreateNodes(List<VSNodeData> nodeDatas) async {
+    nodeManger.updateOrCreateNodes(nodeDatas);
     notifyListeners();
+  }
+
+  void moveNode(VSNodeData nodeData, Offset offset) {
+    final movedOffset = applyViewPortTransfrom(offset) - nodeData.widgetOffset;
+
+    final List<VSNodeData> modifiedNodes = [];
+
+    if (selectedNodes.contains(nodeData.id)) {
+      for (final nodeId in selectedNodes) {
+        final currentNode = data[nodeId]!;
+        modifiedNodes.add(
+          currentNode..widgetOffset = currentNode.widgetOffset + movedOffset,
+        );
+      }
+    } else {
+      modifiedNodes.add(
+        nodeData..widgetOffset = nodeData.widgetOffset + movedOffset,
+      );
+    }
+
+    updateOrCreateNodes(modifiedNodes);
   }
 
   ///Removes a node
@@ -55,12 +76,40 @@ class VSNodeDataProvider extends ChangeNotifier {
   ///
   ///Notifies listeners to this provider
   void createNodeFromContext(VSNodeDataBuilder builder) {
-    updateOrCreateNode(
-      builder(
-        _contextMenuContext!.offset,
-        _contextMenuContext!.reference,
-      ),
+    updateOrCreateNodes(
+      [
+        builder(
+          _contextMenuContext!.offset,
+          _contextMenuContext!.reference,
+        )
+      ],
     );
+  }
+
+  Set<String> _selectedNodes = {};
+  Set<String> get selectedNodes => _selectedNodes;
+
+  set selectedNodes(Set<String> data) {
+    _selectedNodes = Set.from(data);
+    notifyListeners();
+  }
+
+  void addSelectedNodes(Iterable<String> data) {
+    selectedNodes = selectedNodes..addAll(data);
+  }
+
+  void addFromSelectioArea(Offset start, Offset end) {
+    final Set<String> selected = {};
+    for (final node in nodeManger.data.values) {
+      final pos = node.widgetOffset;
+      if (pos.dy > start.dy &&
+          pos.dx > start.dx &&
+          pos.dy < end.dy &&
+          pos.dx < end.dx) {
+        selected.add(node.id);
+      }
+    }
+    addSelectedNodes(selected);
   }
 
   ContextMenuContext? _contextMenuContext;
