@@ -24,6 +24,8 @@ class VSNode extends StatefulWidget {
   final double width;
 
   ///Can be used to take control over the building of the nodes titles
+  ///
+  ///See [VSNodeTitle] for reference
   final Widget Function(
     BuildContext context,
     VSNodeData nodeData,

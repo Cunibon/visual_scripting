@@ -31,8 +31,24 @@ class VSNodeDataProvider extends ChangeNotifier {
     );
   }
 
+  ///Instance of [VSNodeManager] created on initialization
+  ///
+  ///Holds all the data and is used as an "API" to modify data
   late VSNodeManager nodeManger;
+
+  ///A map of all nodeBuilders can be used to build a context menu.
+  ///
+  ///Is in this format:
+  ///
+  ///{
+  /// Subgroup:{
+  ///   nodeName: NodeBuilder
+  /// },
+  /// nodeName: NodeBuilder
+  ///}
   Map<String, dynamic> get nodeBuildersMap => nodeManger.nodeBuildersMap;
+
+  ///Node data map in this format: {NodeData.id: NodeData}
   Map<String, VSNodeData> get data => nodeManger.data;
 
   ///Updates an existing node or creates it
@@ -43,6 +59,9 @@ class VSNodeDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///Used to move one or mulitple nodes
+  ///
+  ///Offset will be applied to all nodes based on the offset from the moved nodes original position
   void moveNode(VSNodeData nodeData, Offset offset) {
     final movedOffset = applyViewPortTransfrom(offset) - nodeData.widgetOffset;
 
@@ -86,30 +105,42 @@ class VSNodeDataProvider extends ChangeNotifier {
     );
   }
 
-  Set<String> _selectedNodes = {};
+  ///Set of currently selected node ids
   Set<String> get selectedNodes => _selectedNodes;
+  Set<String> _selectedNodes = {};
 
   set selectedNodes(Set<String> data) {
     _selectedNodes = Set.from(data);
     notifyListeners();
   }
 
+  ///Adds an [Iterable] of type [String] to the currently selected nodes
   void addSelectedNodes(Iterable<String> data) {
     selectedNodes = selectedNodes..addAll(data);
   }
 
-  void addFromSelectioArea(Offset start, Offset end) {
-    final Set<String> selected = {};
+  ///Removes an [Iterable] of type [String] from the currently selected nodes
+  void removeSelectedNodes(Iterable<String> data) {
+    selectedNodes = selectedNodes
+        .where(
+          (element) => !data.contains(element),
+        )
+        .toSet();
+  }
+
+  ///Returns a set of all nodes that fall into the are between the supplied start and end
+  Set<VSNodeData> findNodesInsideSelectionArea(Offset start, Offset end) {
+    final Set<VSNodeData> inside = {};
     for (final node in nodeManger.data.values) {
       final pos = node.widgetOffset;
       if (pos.dy > start.dy &&
           pos.dx > start.dx &&
           pos.dy < end.dy &&
           pos.dx < end.dx) {
-        selected.add(node.id);
+        inside.add(node);
       }
     }
-    addSelectedNodes(selected);
+    return inside;
   }
 
   ContextMenuContext? _contextMenuContext;

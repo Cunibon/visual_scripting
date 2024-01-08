@@ -4,6 +4,7 @@ import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_context_menu.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node.dart';
+import 'package:visual_scripting/VSNode/Widgets/vs_node_title.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_selection_area.dart';
 
 class VSNodeView extends StatelessWidget {
@@ -16,6 +17,7 @@ class VSNodeView extends StatelessWidget {
     this.contextMenuBuilder,
     this.nodeBuilder,
     this.nodeTitleBuilder,
+    this.selectionAreaBuilder,
     super.key,
   });
 
@@ -25,22 +27,36 @@ class VSNodeView extends StatelessWidget {
   final bool enableSelectionArea;
 
   ///Can be used to take control over the building of the nodes
+  ///
+  ///See [VSNode] for reference
   final Widget Function(
     BuildContext context,
     VSNodeData data,
   )? nodeBuilder;
 
   ///Can be used to take control over the building of the context menu
+  ///
+  ///See [VSContextMenu] for reference
   final Widget Function(
     BuildContext context,
     Map<String, dynamic> nodeBuildersMap,
   )? contextMenuBuilder;
 
   ///Can be used to take control over the building of the nodes titles
+  ///
+  ///See [VSNodeTitle] for reference
   final Widget Function(
     BuildContext context,
     VSNodeData nodeData,
   )? nodeTitleBuilder;
+
+  ///Can be used to take control over the building of the selection area
+  ///
+  ///See [VSSelectionArea] for reference
+  final Widget Function(
+    BuildContext context,
+    Widget view,
+  )? selectionAreaBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +72,10 @@ class VSNodeView extends StatelessWidget {
             return Positioned(
               left: value.widgetOffset.dx,
               top: value.widgetOffset.dy,
-              child: nodeBuilder?.call(context, value) ??
+              child: nodeBuilder?.call(
+                    context,
+                    value,
+                  ) ??
                   VSNode(
                     key: ValueKey(value.id),
                     data: value,
@@ -84,7 +103,9 @@ class VSNodeView extends StatelessWidget {
                   left: nodeDataProvider.contextMenuContext!.offset.dx,
                   top: nodeDataProvider.contextMenuContext!.offset.dy,
                   child: contextMenuBuilder?.call(
-                          context, nodeDataProvider.nodeBuildersMap) ??
+                        context,
+                        nodeDataProvider.nodeBuildersMap,
+                      ) ??
                       VSContextMenu(
                         nodeBuilders: nodeDataProvider.nodeBuildersMap,
                       ),
@@ -93,10 +114,13 @@ class VSNodeView extends StatelessWidget {
           );
 
           if (enableSelectionArea) {
-            return VSSelectionArea(
-              provider: nodeDataProvider,
-              child: view,
-            );
+            return selectionAreaBuilder?.call(
+                  context,
+                  view,
+                ) ??
+                VSSelectionArea(
+                  child: view,
+                );
           } else {
             return view;
           }
