@@ -4,14 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
 import 'package:visual_scripting/VSNode/Widgets/vs_node_view.dart';
 
-enum SelectionMode { select, deselect }
-
 class VSSelectionArea extends StatefulWidget {
   ///The base selection area
   ///
   ///Used inside [VSNodeView] to add a selction area to the node view
   ///
-  ///Hold "Ctrl" to select items and "Shift" to unselect
+  ///Hold "Ctrl" to select items or unselect seleted items
   const VSSelectionArea({
     required this.child,
     super.key,
@@ -24,9 +22,8 @@ class VSSelectionArea extends StatefulWidget {
 }
 
 class _VSSelectionAreaState extends State<VSSelectionArea> {
-  //Current selection mode
-  //If null no selection mode is active
-  SelectionMode? mode;
+  //If selectionMode is active
+  bool selectionMode = false;
 
   //Raw input as delivered by  user
   Offset? startPos;
@@ -54,15 +51,13 @@ class _VSSelectionAreaState extends State<VSSelectionArea> {
 
   ///Takes keyboard input and sets [mode] accordingly
   void handleKeyInput(input) {
-    SelectionMode? newMode;
     if (input.isControlPressed || input.isMetaPressed) {
-      newMode = SelectionMode.select;
-    } else if (input.isShiftPressed) {
-      newMode = SelectionMode.deselect;
+      setState(() {
+        selectionMode = true;
+      });
+    } else {
+      resetState();
     }
-    setState(() {
-      mode = newMode;
-    });
   }
 
   ///Takes user input and sets [topLeftPos] an [bottomRightPos] accordingly
@@ -91,6 +86,19 @@ class _VSSelectionAreaState extends State<VSSelectionArea> {
 
     topLeftPos = Offset(startPosX, startPosY);
     bottomRightPos = Offset(endPosX, endPosY);
+  }
+
+  ///Resets state to default values
+  void resetState() {
+    setState(
+      () {
+        topLeftPos = null;
+        bottomRightPos = null;
+        startPos = null;
+        endPos = null;
+        selectionMode = false;
+      },
+    );
   }
 
   @override
@@ -122,7 +130,7 @@ class _VSSelectionAreaState extends State<VSSelectionArea> {
 
     children.add(widget.child);
 
-    return mode == null
+    return selectionMode == false
         ? widget.child
         : GestureDetector(
             behavior: HitTestBehavior.translucent,
@@ -146,27 +154,27 @@ class _VSSelectionAreaState extends State<VSSelectionArea> {
                     topLeftPos!,
                     bottomRightPos!,
                   )
-                  .map((e) => e.id);
+                  .map((e) => e.id)
+                  .toList();
 
-              switch (mode) {
-                case SelectionMode.select:
-                  provider.addSelectedNodes(nodes);
-                  break;
-                case SelectionMode.deselect:
-                  provider.removeSelectedNodes(nodes);
-                  break;
-                default:
+              if (selectionMode) {
+                final Set<String> alreadySelected = {};
+
+                nodes.removeWhere(
+                  (node) {
+                    if (provider.selectedNodes.contains(node)) {
+                      alreadySelected.add(node);
+                      return true;
+                    }
+                    return false;
+                  },
+                );
+
+                provider.removeSelectedNodes(alreadySelected);
+                provider.addSelectedNodes(nodes);
               }
 
-              setState(
-                () {
-                  topLeftPos = null;
-                  bottomRightPos = null;
-                  startPos = null;
-                  endPos = null;
-                  mode = null;
-                },
-              );
+              resetState();
             },
             child: Stack(
               children: children,
