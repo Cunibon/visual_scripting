@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_string_interface.dart';
-import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
-import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
-import 'package:visual_scripting/VSNode/Data/vs_subgroup.dart';
-import 'package:visual_scripting/VSNode/SpecialNodes/vs_output_node.dart';
-import 'package:visual_scripting/VSNode/SpecialNodes/vs_widget_node.dart';
-import 'package:visual_scripting/VSNode/Widgets/interactive_vs_node_view.dart';
 import 'package:visual_scripting/legend.dart';
 import 'package:visual_scripting/logik_nodes.dart';
 import 'package:visual_scripting/number_nodes.dart';
+import 'package:vs_node_view/vs_node_view.dart';
 
 final LocalStorage storage = LocalStorage('VSDemo');
 
@@ -135,7 +129,7 @@ class _ShowResultState extends State<ShowResult> {
                 onPressed: () => setState(() {
                   final entries =
                       nodeDataProvider.nodeManger.getOutputNodes.map(
-                    (e) => e.evalTree(
+                    (e) => e.evaluate(
                       onError: (_, __) => Future.delayed(Duration.zero, () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

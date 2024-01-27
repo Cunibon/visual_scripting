@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_bool_interface.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_double_interface.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_dynamic_interface.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_int_interface.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_num_interface.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_string_interface.dart';
+import 'package:vs_node_view/data/standard_interfaces/vs_bool_interface.dart';
+import 'package:vs_node_view/data/standard_interfaces/vs_double_interface.dart';
+import 'package:vs_node_view/data/standard_interfaces/vs_dynamic_interface.dart';
+import 'package:vs_node_view/data/standard_interfaces/vs_int_interface.dart';
+import 'package:vs_node_view/data/standard_interfaces/vs_num_interface.dart';
+import 'package:vs_node_view/data/standard_interfaces/vs_string_interface.dart';
 
 Map<String, Color> inputTypes = {
   "String": VSStringInputData(name: "legend").interfaceColor,

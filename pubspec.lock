@@ -264,6 +264,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  vs_node_view:
+    dependency: "direct main"
+    description:
+      name: vs_node_view
+      sha256: f4cb6d1c5316a7dd160e4041774bc3e0be51617ed9ff7f26b48772d692377137
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   web:
     dependency: transitive
     description:

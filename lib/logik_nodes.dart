@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_bool_interface.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_dynamic_interface.dart';
-import 'package:visual_scripting/VSNode/Data/StandardInterfaces/vs_num_interface.dart';
-import 'package:visual_scripting/VSNode/Data/vs_interface.dart';
-import 'package:visual_scripting/VSNode/Data/vs_node_data.dart';
-import 'package:visual_scripting/VSNode/Data/vs_node_data_provider.dart';
+import 'package:vs_node_view/data/vs_node_data_provider.dart';
+import 'package:vs_node_view/vs_node_view.dart';
 
 List<VSNodeDataBuilder> logikNodes = [
   (Offset offset, VSOutputData? ref) => VSNodeData(
