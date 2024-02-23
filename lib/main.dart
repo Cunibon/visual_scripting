@@ -51,6 +51,23 @@ class _ShowResultState extends State<ShowResult> {
         name: "Logik",
         subgroup: logikNodes,
       ),
+      (Offset offset, VSOutputData? ref) => VSListNode(
+            type: "Concat",
+            toolTip: "Concatinates all inputs",
+            widgetOffset: offset,
+            outputData: [
+              VSStringOutputData(
+                type: "Output",
+                toolTip: "All inputs concatinated",
+                outputFunction: (data) => data.values.join(),
+              )
+            ],
+            inputBuilder: (index, ref) => VSDynamicInputData(
+              type: "$index",
+              title: "$index input",
+              initialConnection: ref,
+            ),
+          ),
       (Offset offset, VSOutputData? ref) {
         final controller = TextEditingController();
         final input = TextField(
@@ -63,9 +80,11 @@ class _ShowResultState extends State<ShowResult> {
 
         return VSWidgetNode(
           type: "Input",
+          toolTip: "A user input",
           widgetOffset: offset,
           outputData: VSStringOutputData(
-            name: "Output",
+            type: "Output",
+            toolTip: "The users input as a String",
             outputFunction: (data) => controller.text,
           ),
           child: Expanded(child: input),
@@ -75,6 +94,7 @@ class _ShowResultState extends State<ShowResult> {
       },
       (Offset offset, VSOutputData? ref) => VSOutputNode(
             type: "Output",
+            toolTip: "Will output this tree",
             widgetOffset: offset,
             ref: ref,
           ),
@@ -93,6 +113,7 @@ class _ShowResultState extends State<ShowResult> {
         InteractiveVSNodeView(
           width: 5000,
           height: 5000,
+          scaleFactor: 300,
           nodeDataProvider: nodeDataProvider,
         ),
         const Positioned(

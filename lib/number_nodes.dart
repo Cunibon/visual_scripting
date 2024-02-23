@@ -1,60 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:vs_node_view/data/vs_node_data_provider.dart';
+import 'package:vs_node_view/common.dart';
 import 'package:vs_node_view/vs_node_view.dart';
 
 List<VSNodeDataBuilder> numberNodes = [
   (Offset offset, VSOutputData? ref) => VSNodeData(
         type: "Parse int",
+        toolTip: "Parses a String to an Integer",
         widgetOffset: offset,
         inputData: [
           VSStringInputData(
-            name: "Input",
+            type: "Input",
+            toolTip: "The String to be parsed",
             initialConnection: ref,
           )
         ],
         outputData: [
           VSIntOutputData(
-            name: "Output",
+            type: "Output",
+            toolTip: "The parsed Integer",
             outputFunction: (data) => int.parse(data["Input"]),
           ),
         ],
       ),
   (Offset offset, VSOutputData? ref) => VSNodeData(
         type: "Parse double",
+        toolTip: "Parses a String to an Double",
         widgetOffset: offset,
         inputData: [
           VSStringInputData(
-            name: "Input",
+            type: "Input",
+            toolTip: "The String to be parsed",
             initialConnection: ref,
           )
         ],
         outputData: [
           VSDoubleOutputData(
-            name: "Output",
+            type: "Output",
+            toolTip: "The parsed Double",
             outputFunction: (data) => double.parse(data["Input"]),
           ),
         ],
       ),
-  (Offset offset, VSOutputData? ref) => VSNodeData(
+  (Offset offset, VSOutputData? ref) => VSListNode(
         type: "Sum",
+        toolTip: "Adds all supplied Numbers together",
         widgetOffset: offset,
-        inputData: [
-          VSNumInputData(
-            name: "Input 1",
-            initialConnection: ref,
-          ),
-          VSNumInputData(
-            name: "Input 2",
-            initialConnection: ref,
-          )
-        ],
+        inputBuilder: (index, connection) => VSNumInputData(
+          type: "Input $index",
+          initialConnection: connection,
+        ),
         outputData: [
           VSNumOutputData(
-            name: "output",
+            type: "output",
+            toolTip: "The sum of all supplied values",
             outputFunction: (data) {
-              return (data["Input 1"] ?? 0) + (data["Input 2"] ?? 0);
+              return data.values.reduce((value, element) => value + element);
             },
-          ),
+          )
         ],
       ),
 ];

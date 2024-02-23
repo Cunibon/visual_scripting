@@ -7,12 +7,12 @@ import 'package:vs_node_view/data/standard_interfaces/vs_num_interface.dart';
 import 'package:vs_node_view/data/standard_interfaces/vs_string_interface.dart';
 
 Map<String, Color> inputTypes = {
-  "String": VSStringInputData(name: "legend").interfaceColor,
-  "Int": VSIntInputData(name: "legend").interfaceColor,
-  "Double": VSDoubleInputData(name: "legend").interfaceColor,
-  "Num": VSNumInputData(name: "legend").interfaceColor,
-  "Bool": VSBoolInputData(name: "legend").interfaceColor,
-  "Dynamic": VSDynamicInputData(name: "legend").interfaceColor,
+  "String": VSStringInputData(type: "legend").interfaceColor,
+  "Int": VSIntInputData(type: "legend").interfaceColor,
+  "Double": VSDoubleInputData(type: "legend").interfaceColor,
+  "Num": VSNumInputData(type: "legend").interfaceColor,
+  "Bool": VSBoolInputData(type: "legend").interfaceColor,
+  "Dynamic": VSDynamicInputData(type: "legend").interfaceColor,
 };
 
 class Legend extends StatelessWidget {
