@@ -45,6 +45,7 @@ List<VSNodeDataBuilder> numberNodes = [
         type: "Sum",
         toolTip: "Adds all supplied Numbers together",
         widgetOffset: offset,
+        referenceConnection: ref,
         inputBuilder: (index, connection) => VSNumInputData(
           type: "Input $index",
           initialConnection: connection,
