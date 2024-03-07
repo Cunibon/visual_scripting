@@ -101,8 +101,11 @@ class _ShowResultState extends State<ShowResult> {
     ];
 
     nodeDataProvider = VSNodeDataProvider(
-      nodeBuilders: nodeBuilders,
-      serializedNodes: storage.getItem('nodeData'),
+      nodeManager: VSNodeManager(
+        nodeBuilders: nodeBuilders,
+        serializedNodes: storage.getItem('nodeData'),
+      ),
+      historyManager: VSHistoryManger(),
     );
   }
 
@@ -117,9 +120,33 @@ class _ShowResultState extends State<ShowResult> {
           nodeDataProvider: nodeDataProvider,
         ),
         const Positioned(
-          bottom: 0,
-          right: 0,
+          top: 0,
+          left: 0,
           child: Legend(),
+        ),
+        Positioned(
+          right: 0,
+          bottom: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: nodeDataProvider.historyManager!.undo,
+                child: const Icon(
+                  Icons.undo,
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              ElevatedButton(
+                onPressed: nodeDataProvider.historyManager!.redo,
+                child: const Icon(
+                  Icons.redo,
+                ),
+              )
+            ],
+          ),
         ),
         Positioned(
           bottom: 0,
@@ -128,7 +155,7 @@ class _ShowResultState extends State<ShowResult> {
             onPressed: () async {
               storage.setItem(
                 'nodeData',
-                nodeDataProvider.nodeManger.serializeNodes(),
+                nodeDataProvider.nodeManager.serializeNodes(),
               );
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -149,7 +176,7 @@ class _ShowResultState extends State<ShowResult> {
               ElevatedButton(
                 onPressed: () => setState(() {
                   final entries =
-                      nodeDataProvider.nodeManger.getOutputNodes.map(
+                      nodeDataProvider.nodeManager.getOutputNodes.map(
                     (e) => e.evaluate(
                       onError: (_, __) => Future.delayed(Duration.zero, () {
                         ScaffoldMessenger.of(context).showSnackBar(
